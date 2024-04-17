@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\TaskStatus;
 
 return new class extends Migration
 {
@@ -15,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('status');
+            # There's no enum in sqlite, but using mysql will work. Line below is getting automatically converted to type text.
+            $table->enum('status', array_column(TaskStatus::cases(), 'value'));
             $table->unsignedInteger('duration');
             $table->timestamps();
         });

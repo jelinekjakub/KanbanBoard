@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum TaskStatus: string
 {
-    const todo = "todo";
-    const progress = "progress";
-    const done = "done";
+    case Todo = 'todo';
+    case Progress = 'progress';
+    case Done = 'done';
 }
