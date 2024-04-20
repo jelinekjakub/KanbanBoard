@@ -25,6 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
+    # přepsat Dashboard v Intertia::render a url
+    /*
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    });
+    */
 });
 
 require __DIR__.'/auth.php';
