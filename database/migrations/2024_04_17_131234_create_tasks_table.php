@@ -18,7 +18,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             # There's no enum in sqlite, but using mysql will work. Line below is getting automatically converted to type text.
             $table->enum('status', array_column(TaskStatus::cases(), 'value'));
-            $table->unsignedInteger('duration');
+            # $table->unsignedInteger('?????');
+            $table->dateTime('deadline');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
