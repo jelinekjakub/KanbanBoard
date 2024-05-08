@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
@@ -13,7 +14,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-        return $tasks;
+        return Inertia::render('Board', $tasks);
     }
 
     /**
@@ -21,7 +22,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('NewTask');
     }
 
     /**

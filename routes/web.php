@@ -24,11 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/tasks', [TaskController::class, 'index'])->name('task.index');
-    
-    Route::get('/board', function () {
-        return Inertia::render('Board');
-    });
+    Route::get('/create-task', [TaskController::class, 'create'])->name('task.create');
+    Route::get('/board', [TaskController::class, 'index'])->name('task.index');
     
 });
 

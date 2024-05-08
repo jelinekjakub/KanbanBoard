@@ -18,7 +18,7 @@ export default function Board({ auth }: PageProps) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         # dnd kit
                         <div className="p-6 text-gray-900">
-                            <Link href={route('dashboard')}>
+                            <Link href={route('task.create')}>
                                 <PrimaryButton className='mb-4'>Create new task</PrimaryButton>
                             </Link>
                             <div className='grid gap-6 grid-cols-3'>
