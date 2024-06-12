@@ -2,15 +2,20 @@
 
 {% block title %}Tabule{% endblock %}
 {% block content %}
-<main class="flex bg-slate-200 p-12 w-full text-slate-800">
+<main class="flex bg-white p-12 w-full text-slate-800">
     <div class="flex flex-col w-full">
         <h1 class="text-2xl mb-8 font-semibold ">Tabule</h1>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-2">
             {% for i in range(3) %}
-            <div class="bg-slate-300 rounded-lg shadow-sm p-4">
+            <div class="bg-slate-50 rounded-lg shadow-sm p-4">
                 <h2 class="uppercase font-semibold mb-6 text-slate-600 tracking-wider text-sm">To do</h2>
-                <div class="flex flex-col gap-4 [&>a]:bg-slate-50 [&>a]:hover:bg-slate-100 [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
-                    <a href="#">
+                <div class="flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
+                    <a href="#" class="hover:bg-slate-200">
+                        Lorem ipsum dolor sit amet.
+                        <span class="block text-right mt-6 text-sm">24.05.2004</span>
+                    </a>
+
+                    <a href="#" class="hover:bg-slate-200">
                         Lorem ipsum dolor sit amet.
                         <span class="block text-right mt-6 text-sm">24.05.2004</span>
                     </a>
