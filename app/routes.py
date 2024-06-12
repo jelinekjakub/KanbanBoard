@@ -16,9 +16,19 @@ def index():
 
 @app.route('/login')
 def login():
-    return render_template('/login.html')
+    return render_template('login.html')
 
 
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+
+@app.route('/board')
+def board():
+    return render_template('board.html')
+
+
+@app.route('/task')
+def task():
+    return render_template('task.html')
