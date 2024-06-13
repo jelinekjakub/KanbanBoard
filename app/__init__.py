@@ -1,17 +1,18 @@
 from flask import Flask
+from decouple import config
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
-from app import routes
-from app.database import init_db, db_session
 
+app.config.from_object(config("APP_SETTINGS"))
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+from app import routes
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    db_session.remove()
-
-
-init_db()
-app.secret_key = 'top secret key'
-app.run(debug=True)
+    db.session.remove()
