@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect
+from flask import flash, request, render_template, redirect
 from passlib.hash import pbkdf2_sha256
 from app import db
 from app.helpers import start_session, clear_session
@@ -29,10 +29,11 @@ class User(db.Model):
 
     def login(self):
         user = User.query.filter_by(email=request.form['email']).first()
-
         if user and pbkdf2_sha256.verify(request.form['password'], user.password):
+            flash("Gratuluju! ", "success")
             return start_session(user)
         else:
+            flash("Nepovedlo se to... ", "danger")
             return render_template('login.html', message="Nesprávné jméno nebo heslo"), 401
 
     def logout(self):
