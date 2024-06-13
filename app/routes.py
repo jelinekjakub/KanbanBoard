@@ -55,5 +55,6 @@ def task_edit():
 
 
 @app.route('/projects')
+@auth
 def project_index():
     return render_template('project/index.html')
