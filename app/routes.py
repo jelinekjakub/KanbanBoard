@@ -52,3 +52,8 @@ def task_show():
 def task_edit():
     # id
     return render_template('task/edit.html')
+
+
+@app.route('/projects')
+def project_index():
+    return render_template('project/index.html')
