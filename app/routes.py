@@ -1,6 +1,7 @@
-from flask import render_template
-
+from flask import render_template, request
 from app import app
+from app.models import User
+from app.helpers import auth
 
 
 @app.errorhandler(404)
@@ -14,17 +15,29 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        return User().login()
+    else:
+        return render_template('login.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'POST':
+        return User().register()
+    else:
+        return render_template('register.html')
+
+
+@app.route('/logout')
+def logout():
+    return User().logout()
 
 
 @app.route('/board')
+@auth
 def board():
     return render_template('board.html')
 
