@@ -58,6 +58,7 @@ def logout():
 
 
 @app.route('/board')
+@login_required
 def board():
     return render_template('board.html')
 

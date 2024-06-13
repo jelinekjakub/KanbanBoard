@@ -16,7 +16,9 @@ migrate = Migrate(app, db)
 
 from app.models import User
 
-login_manager.login_view = "app.login"
+login_manager.login_view = "login"
+login_manager.login_message = "Pro přístup k této stránce se musíte přihlásit!"
+login_manager.login_message_category = "danger"
 
 
 @login_manager.user_loader
@@ -25,9 +27,8 @@ def load_user(user_id):
 
 from app import routes
 
-########################
-#### error handlers ####
-########################
+
+# error handlers
 
 @app.errorhandler(404)
 def page_not_found(error):
