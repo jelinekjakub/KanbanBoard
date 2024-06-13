@@ -11,7 +11,7 @@
         {% include "components/logo.html" %}
         <ul class="pt-12 flex flex-col gap-2">
             <li class="my-px">
-                <a href="#"
+                <a href="{{ url_for('index') }}"
                    class="flex flex-row items-center px-4 py-2 rounded-lg bg-indigo-800">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
@@ -28,7 +28,7 @@
                 </a>
             </li>
             <li class="my-px">
-                <a href="/board"
+                <a href="{{ url_for('board') }}"
                    class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
@@ -131,7 +131,7 @@
                 </a>
             </li>
             <li class="my-px">
-                <a href="/login"
+                <a href="{{ url_for('login') }}"
                    class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
@@ -149,7 +149,21 @@
             </li>
         </ul>
     </aside>
-    {% block content %}{% endblock %}
+    <main class="flex flex-col items-center bg-white p-12 w-full text-slate-800">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="max-w-2xl mx-auto my-4">
+            {% for category, message in messages %}
+                {% include "components/alert.html" %}
+            {% endfor %}
+        </div>
+        <div>
+            {% endif %}
+            {% endwith %}  
+        </div>
+    {% block content %}
+    {% endblock %}
+    </main>
     <footer>
 
     </footer>

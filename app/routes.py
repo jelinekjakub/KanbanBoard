@@ -1,27 +1,60 @@
-from flask import render_template
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import login_required, login_user, logout_user, current_user
 
-from app import app
+from .forms import LoginForm, RegisterForm
 
-
-@app.errorhandler(404)
-def not_found(e):
-    return render_template('404.html')
-
+from app import app, bcrypt, db
+from app.models import User
 
 @app.route('/')
 @app.route('/index')
 def index():
+    flash("Tohle je jen test alertů ... Doufám, že to funguje ...", "info")
+    flash("Alerty mají 3 různé úrovně, danger, success a info ... ", "danger")
+    flash("Vypadají nějak takhle ... A dají se i zavřít tím křížkem ... ", "success")
     return render_template('index.html')
 
 
-@app.route('/login')
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template('login.html')
+    if current_user.is_authenticated:
+        flash("Už jste prihlášen(a).", "info")
+        return redirect(url_for("index"))
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, request.form["password"]):
+            login_user(user)
+            return redirect(url_for("index"))
+        else:
+            flash("Neplatná kombinace emailu a hesla.", "danger")
+            return render_template("login.html", form=form)
+    return render_template('login.html', form=form)
 
 
-@app.route('/register')
+@app.route('/register', methods=["GET", "POST"])
 def register():
-    return render_template('register.html')
+    if current_user.is_authenticated:
+        flash("Už jste zaregistrován(a).", "info")
+        return redirect(url_for("index"))
+    form = RegisterForm(request.form)
+    if form.validate_on_submit():
+        user = User(username=form.username.data,email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        login_user(user)
+        flash(f"Registrace proběhla úspěšně a jste přihlášen(a).", "success")
+
+        return redirect(url_for("index"))
+
+    return render_template('register.html', form=form)
+
+@app.route('/logout', methods=["GET", "POST"])
+def logout():
+    logout_user()
+    flash("Byl(a) jste odhlášen(a) .", "success")
+    return redirect(url_for("index"))
 
 
 @app.route('/board')
