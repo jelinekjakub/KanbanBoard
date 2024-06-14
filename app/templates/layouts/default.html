@@ -12,8 +12,8 @@
     {% include "components/logo.html" %}
     <ul class="pt-12 flex flex-col gap-2">
         <li class="my-px">
-            <a href="#"
-               class="flex flex-row items-center px-4 py-2 rounded-lg bg-indigo-800">
+            <a href="{{ url_for('index') }}"
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'home' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"
@@ -29,8 +29,8 @@
             </a>
         </li>
         <li class="my-px">
-            <a href="/projects"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+            <a href="{{ url_for('project_index') }}"
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'projects' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"
@@ -46,8 +46,8 @@
             </a>
         </li>
         <li class="my-px">
-            <a href="/board"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+            <a href="{{ url_for('board') }}"
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'tasks' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"
@@ -64,7 +64,7 @@
         </li>
         <li class="my-px">
             <a href="#"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'stats' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
@@ -75,24 +75,7 @@
         </li>
         <li class="my-px">
             <a href="#"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
-                    <span class="flex items-center justify-center text-lg">
-                        <svg fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round"
-                             stroke-width="2"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             class="size-5">
-                            <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </span>
-                <span class="ml-3">Nový projekt</span>
-            </a>
-        </li>
-        <li class="my-px">
-            <a href="#"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'profile' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"
@@ -109,7 +92,7 @@
         </li>
         <li class="my-px">
             <a href="#"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'settings' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"
@@ -127,7 +110,7 @@
         </li>
         <li class="my-px">
             <a href="{{ '/logout' if session['auth'] else '/login' }}"
-               class="flex flex-row items-center px-4 py-2 rounded-lg hover:bg-indigo-800">
+               class="flex flex-row items-center px-4 py-2 rounded-lg {{ 'bg-indigo-800' if menu_page == 'login' else 'hover:bg-indigo-700' }}">
                     <span class="flex items-center justify-center text-lg">
                         <svg fill="none"
                              stroke-linecap="round"

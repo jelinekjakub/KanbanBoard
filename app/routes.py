@@ -12,7 +12,7 @@ def not_found(e):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', menu_page='home')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -20,7 +20,7 @@ def login():
     if request.method == 'POST':
         return User().login()
     else:
-        return render_template('login.html')
+        return render_template('login.html', menu_page='login')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -28,7 +28,7 @@ def register():
     if request.method == 'POST':
         return User().register()
     else:
-        return render_template('register.html')
+        return render_template('register.html', menu_page='login')
 
 
 @app.route('/logout')
@@ -39,28 +39,28 @@ def logout():
 @app.route('/board')
 @auth
 def board():
-    return render_template('board.html')
+    return render_template('task/board.html', menu_page='tasks')
 
 
 @app.route('/task')
 def task_show():
     # id
-    return render_template('task/show.html')
+    return render_template('task/show.html', menu_page='tasks')
 
 
 @app.route('/task/edit')
 def task_edit():
     # id
-    return render_template('task/edit.html')
+    return render_template('task/edit.html', menu_page='tasks')
 
 
 @app.route('/projects')
 @auth
 def project_index():
-    return render_template('project/index.html')
+    return render_template('project/index.html', menu_page='projects')
 
 
 @app.route('/project/new')
 @auth
 def project_create():
-    return render_template('project/create.html')
+    return render_template('project/create.html', menu_page='projects')
