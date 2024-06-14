@@ -5,7 +5,7 @@
 <main class="flex bg-white p-12 w-full text-slate-800">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
-            <a href="">
+            <a href="{{ url_for('task_create') }}">
                 <div class="flex flex-row gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -22,12 +22,12 @@
             <div class="bg-slate-50 rounded-lg shadow-sm p-4">
                 <h2 class="uppercase font-semibold mb-6 text-slate-600 tracking-wider text-sm">To do</h2>
                 <div class="flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
-                    <a href="#" class="hover:bg-slate-200">
+                    <a href="{{ url_for('task_show') }}" class="hover:bg-slate-200">
                         Lorem ipsum dolor sit amet.
                         <span class="block text-right mt-6 text-sm">24.05.2004</span>
                     </a>
 
-                    <a href="#" class="hover:bg-slate-200">
+                    <a href="{{ url_for('task_show') }}" class="hover:bg-slate-200">
                         Lorem ipsum dolor sit amet.
                         <span class="block text-right mt-6 text-sm">24.05.2004</span>
                     </a>

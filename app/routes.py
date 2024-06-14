@@ -43,12 +43,21 @@ def board():
 
 
 @app.route('/task')
+@auth
 def task_show():
     # id
     return render_template('task/show.html', menu_page='tasks')
 
 
+@app.route('/task/create')
+@auth
+def task_create():
+    # id
+    return render_template('task/create.html', menu_page='tasks')
+
+
 @app.route('/task/edit')
+@auth
 def task_edit():
     # id
     return render_template('task/edit.html', menu_page='tasks')
