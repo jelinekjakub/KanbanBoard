@@ -59,6 +59,7 @@ def task_edit():
 def project_index():
     return render_template('project/index.html')
 
+
 @app.route('/project/new')
 @auth
 def project_create():
