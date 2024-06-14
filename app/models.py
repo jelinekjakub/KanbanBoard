@@ -1,8 +1,21 @@
+import enum
 from flask import flash, request, render_template, redirect
 from passlib.hash import pbkdf2_sha256
 from app import db
+from datetime import datetime
 from app.helpers import start_session, clear_session
 
+class ProjectStatus(enum.Enum):
+    FINISHED = "Hotovo"
+    ACTIVE = "Aktivní"
+    PLANNED = "Plánovaný"
+    DELAYED = "Zpožděný"
+    
+
+class TaskStatus(enum.Enum):
+    TO_DO = "Udělat"
+    IN_PROGRESS = "V průběhu"
+    FINISHED = "Hotovo"
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -37,3 +50,36 @@ class User(db.Model):
     def logout(self):
         clear_session()
         return redirect('/')
+    
+class Project(db.Model): 
+    __tablename__ = 'projects'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    start_date = db.Column(db.Date, nullable=False, default=datetime.today())
+    finished_date = db.Column(db.Date, nullable=True)
+    deadline_date = db.Column(db.Date, nullable=True)
+    status = db.Column(db.Enum(ProjectStatus), nullable=False, default=ProjectStatus.PLANNED)
+    task = db.relationship('Task', backref='project', lazy=True)
+    
+    @property
+    def days_passed(self): 
+        date_diff = datetime.today().date() - self.start_date
+        return date_diff.days
+    
+    @property
+    def task_count(self): 
+        return Task.query.filter(Task.project_id == self.id, Task.status != TaskStatus.FINISHED).count()
+    
+class Task(db.Model):
+    __tablename__ = 'tasks'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    start_date = db.Column(db.Date, nullable=False, default=datetime.today())
+    finished_date = db.Column(db.Date, nullable=True)
+    deadline_date = db.Column(db.Date, nullable=True)
+    status = db.Column(db.Enum(TaskStatus), nullable=False, default=TaskStatus.TO_DO)
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'),
+        nullable=False)
