@@ -70,6 +70,57 @@
                 </tr>
                 </thead>
                 <tbody>
+                    {% for project in projects_list %}
+                    <tr>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <div class="flex items-center gap-3">
+                                <div class="flex flex-col">
+                                    <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                                        {{ project.name }}</p>
+                                    <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal opacity-70">
+                                        Start: {{ project.start_date|format_date }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                                {{ project.days_passed }}</p>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                                {{ project.task_count }}
+                            </p>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <div class="w-max">
+                                <div class="project-status-{{ project.status.name }}"
+                                     style="opacity: 1;">
+                                    <span class="">{{ project.status.value }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
+                                {{ project.deadline_date|format_date }}</p>
+                        </td>
+                        <td class="p-4 border-b border-blue-gray-50">
+                            <button class="relative align-middle select-none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-10 max-w-[40px] h-10 max-h-[40px] rounded-lg text-xs text-blue-gray-500 hover:bg-blue-gray-500/10 active:bg-blue-gray-500/30"
+                                    type="button">
+                                <span class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+                                    <svg fill="none"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     stroke-width="1.5"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     class="size-6">
+                                        <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                                    </svg>
+                                </span>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 <tr>
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
