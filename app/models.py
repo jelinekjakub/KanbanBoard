@@ -56,7 +56,7 @@ class Project(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    start_date = db.Column(db.Date, nullable=False, default=datetime.today())
+    start_date = db.Column(db.Date, nullable=False, default=datetime.today)
     finished_date = db.Column(db.Date, nullable=True)
     deadline_date = db.Column(db.Date, nullable=True)
     status = db.Column(db.Enum(ProjectStatus), nullable=False, default=ProjectStatus.PLANNED)
@@ -77,7 +77,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    start_date = db.Column(db.Date, nullable=False, default=datetime.today())
+    start_date = db.Column(db.Date, nullable=False, default=datetime.today)
     finished_date = db.Column(db.Date, nullable=True)
     deadline_date = db.Column(db.Date, nullable=True)
     status = db.Column(db.Enum(TaskStatus), nullable=False, default=TaskStatus.TO_DO)
