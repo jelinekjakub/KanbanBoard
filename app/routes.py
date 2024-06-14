@@ -58,3 +58,8 @@ def task_edit():
 @auth
 def project_index():
     return render_template('project/index.html')
+
+@app.route('/project/new')
+@auth
+def project_create():
+    return render_template('project/create.html')
