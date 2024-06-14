@@ -2,6 +2,7 @@
 
 {% block title %}Projekty{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="../../static/css/project-status.css">
 <main class="flex bg-white p-12 w-full text-slate-800 relative">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
@@ -17,22 +18,6 @@
     </div>
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">Projekty</h1>
-        <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-green-500/20 text-green-600 py-1 px-2 text-xs rounded-md"
-             style="opacity: 1;">
-            <span class="">Hotovo ... třída .project-status-FINISHED</span>
-        </div>
-        <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-purple-500/20 text-purple-600 py-1 px-2 text-xs rounded-md"
-             style="opacity: 1;">
-            <span class="">Aktivní ... třída .project-status-ACTIVE </span>
-        </div>
-        <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-yellow-500/20 text-yellow-600 py-1 px-2 text-xs rounded-md"
-             style="opacity: 1;">
-              <span class="">Plánovaný ... třída .project-status-PLANNED </span>
-        </div>
-        <div class="relative grid items-center font-sans font-bold uppercase whitespace-nowrap select-none bg-red-500/20 text-red-700 py-1 px-2 text-xs rounded-md"
-             style="opacity: 1;">
-            <span class="">Zpožděný ... třída .project-status-DELAYED </span>
-        </div>
         <div class="mt-6">
             <table class="mt-4 w-full min-w-max table-auto text-left">
                 <thead>
@@ -93,8 +78,7 @@
                         </td>
                         <td class="p-4 border-b border-blue-gray-50">
                             <div class="w-max">
-                                <div class="project-status-{{ project.status.name }}"
-                                     style="opacity: 1;">
+                                <div class="project-status-{{ project.status.name }} items-center font-sans font-bold uppercase whitespace-nowrap select-none py-1 px-2 text-xs rounded-md">
                                     <span class="">{{ project.status.value }}</span>
                                 </div>
                             </div>
