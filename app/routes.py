@@ -73,3 +73,9 @@ def project_index():
 @auth
 def project_create():
     return render_template('project/create.html', menu_page='projects')
+
+
+@app.route('/stats')
+@auth
+def stats_index():
+    return render_template('stats/index.html', menu_page='stats')
