@@ -1,5 +1,12 @@
 <!doctype html>
 <html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.00">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
 <body class="flex flex-row bg-slate-100 antialiased">
 <aside class="flex-none w-64 min-h-screen px-4 bg-indigo-600 font-semibold text-sm text-gray-200 shadow-sm">
     {% include "components/logo.html" %}
@@ -145,17 +152,10 @@
             {% endfor %}
         </div>
     {% endif %}
-{% endwith %}  
-
+{% endwith %}
 {% block content %}{% endblock %}
 <footer>
 
 </footer>
 </body>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.00">
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    <title>{% block title %}{% endblock %}</title>
-</head>
 </html>

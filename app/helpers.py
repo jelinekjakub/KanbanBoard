@@ -1,4 +1,4 @@
-from flask import session, redirect, url_for
+from flask import session, redirect, url_for, flash
 import wrapt
 
 
@@ -6,6 +6,7 @@ import wrapt
 @wrapt.decorator
 def auth(wrapped=None, instance=None, args=None, kwargs=None):
     if 'auth' not in session:
+        flash("Pro vstup na tuto stránku musíte být přihlášeni", "info")
         return redirect(url_for('login'))
     return wrapped(*args, **kwargs)
 

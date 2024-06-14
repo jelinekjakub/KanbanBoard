@@ -1,9 +1,20 @@
-<div class="flex justify-between items-center p-4 my-4 text-sm text-white bg-{{ 'green-500' if category == 'success' else 'red-500' if category == 'danger' else 'blue-500' }} rounded-lg" role="alert">
-    <span>{{ message }}</span>
-    <button type="button" class="text-white bg-transparent hover:bg-{{ 'green-700' if category == 'success' else 'red-700' if category == 'danger' else 'blue-700' }} focus:outline-none rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentNode.style.display='none';">
-    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M10 9.293l6.293-6.293a1 1 0 011.414 1.414L11.414 10l6.293 6.293a1 1 0 01-1.414 1.414L10 11.414l-6.293 6.293a1 1 0 01-1.414-1.414L8.586 10 2.293 3.707a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd"></path>
-    </svg>
-    <span class="sr-only">Zavřít</span>
-    </button>
+<div x-data="{ show: true }"
+     x-init="setTimeout(() => show = false, 5000)"
+     x-show="show"
+     class="fixed top-0 left-1/2 transform -translate-x-1/2 w-full max-w-xl z-50">
+    <div class="flex justify-between items-center px-4 py-2 my-4 text-sm text-white bg-{{ 'green-500' if category == 'success' else 'red-500' if category == 'danger' else 'blue-500' }} rounded-lg"
+         role="alert">
+        <span>{{ message }}</span>
+        <button type="button"
+                class="text-white bg-transparent hover:bg-{{ 'green-700' if category == 'success' else 'red-700' if category == 'danger' else 'blue-700' }} focus:outline-none rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                aria-label="Close" @click="show = false">
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M10 9.293l6.293-6.293a1 1 0 011.414 1.414L11.414 10l6.293 6.293a1 1 0 01-1.414 1.414L10 11.414l-6.293 6.293a1 1 0 01-1.414-1.414L8.586 10 2.293 3.707a1 1 0 011.414-1.414L10 8.586z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
 </div>
