@@ -54,8 +54,10 @@ def task_show():
 @app.route("/task/create")
 @auth
 def task_create():
-    # id
-    return render_template("task/create.html", menu_page="tasks")
+    if request.method == "POST":
+        return redirect(url_for('board'))
+    else:
+        return render_template("task/create.html", menu_page="tasks")
 
 
 @app.route("/task/edit")
