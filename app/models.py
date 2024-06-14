@@ -65,7 +65,7 @@ class Project(db.Model):
     @property
     def days_passed(self): 
         date_diff = datetime.today().date() - self.start_date
-        return date_diff.days
+        return date_diff.days if date_diff.days > 0 else 0
     
     @property
     def task_count(self): 
