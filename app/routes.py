@@ -88,6 +88,10 @@ def task_create():
         return redirect(f"{url_for('board')}?project={project_id}")
     else:
         projects_list = Project.query.filter(Project.status != ProjectStatus.FINISHED).all()
+        if not projects_list:
+            flash("Nejprve si musíte založit projekt!", "info")
+            return redirect(url_for("project_create"))
+    
         current_project_id = request.args.get('project', projects_list[0].id)
         return render_template("task/create.html", menu_page="tasks", projects_list=projects_list, current_project_id=current_project_id)
 
