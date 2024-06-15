@@ -57,9 +57,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     start_date = db.Column(db.Date, nullable=False, default=datetime.today)
-    finished_date = db.Column(db.Date, nullable=True)
     deadline_date = db.Column(db.Date, nullable=True)
-    status = db.Column(db.Enum(ProjectStatus), nullable=False, default=ProjectStatus.PLANNED)
     task = db.relationship('Task', backref='project', lazy=True)
     
     @property
@@ -69,7 +67,24 @@ class Project(db.Model):
     
     @property
     def task_count(self): 
-        return Task.query.filter(Task.project_id == self.id, Task.status != TaskStatus.FINISHED).count()
+        return Task.query.filter(Task.project_id == self.id).count()
+    
+    @property
+    def status(self):        
+        project_tasks = Task.query.filter(Task.project_id == self.id)
+        project_tasks_count = project_tasks.count()
+        todo_tasks_count = project_tasks.filter(Task.status == TaskStatus.TO_DO).count()
+        finished_tasks_count = project_tasks.filter(Task.status == TaskStatus.FINISHED).count()
+        print(project_tasks_count)
+        if project_tasks_count == 0 or project_tasks_count == todo_tasks_count:
+            return ProjectStatus.PLANNED
+        elif project_tasks_count == finished_tasks_count:
+            return ProjectStatus.FINISHED
+        elif self.deadline_date < datetime.now().date():
+            return ProjectStatus.DELAYED
+        else:
+            return ProjectStatus.ACTIVE
+
     
 class Task(db.Model):
     __tablename__ = 'tasks'
