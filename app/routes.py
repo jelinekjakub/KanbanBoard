@@ -1,4 +1,4 @@
-from flask import abort, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for
 from app import app
 from app import db
 from datetime import date
@@ -41,37 +41,55 @@ def logout():
 @app.route("/board")
 @auth
 def board():
-    task_statuses = list(TaskStatus)
-    tasks_list = Task.query.all()
-    return render_template("task/board.html", menu_page="tasks", tasks_list=tasks_list, task_statuses=task_statuses)
+    projects = Project.query.all()
+    if not projects:
+        flash("Nejprve si musíte založit projekt!", "info")
+        return redirect(url_for("project_create"))
+    
+    project_id = request.args.get('project', projects[0].id)
+    project = Project.query.filter(Project.id == project_id).first()
+    if not project:
+        return abort(404)
+    
+    tasks_list = Task.query.filter(Task.project_id == project.id)
+    task_statuses = list(TaskStatus)    
+    return render_template("task/board.html", menu_page="tasks", tasks_list=tasks_list, task_statuses=task_statuses, projects_list = projects, current_project=project)
 
 
-@app.route("/task")
+@app.route("/task", methods=["GET", "POST"])
 @auth
 def task_show():
     task_id = request.args.get('id')
     task = Task.query.filter(Task.id == task_id).first()
     if not task:
         return abort(404)
-    return render_template("task/show.html", menu_page="tasks", task=task)
+    if request.method == "POST":
+        task.status = TaskStatus[request.form['status']]
+        db.session.commit()
+        flash("Změna statusu proběhla úspěšně.", "success")
+        return redirect(f"{url_for('task_show')}?id={task_id}")
+    else:
+        return render_template("task/show.html", menu_page="tasks", task=task)
 
 
 @app.route("/task/create", methods=["GET", "POST"])
 @auth
 def task_create():
     if request.method == "POST":
+        project_id=request.form["project"]
         new_task = Task(
             name=request.form["name"],
             description=request.form["description"],
             deadline_date=date.fromisoformat(request.form["deadline"]),
-            project_id=request.form["project"]
+            project_id=project_id
         )
         db.session.add(new_task)
         db.session.commit()
-        return redirect(url_for('board'))
+        return redirect(f"{url_for('board')}?project={project_id}")
     else:
         projects_list = Project.query.filter(Project.status != ProjectStatus.FINISHED).all()
-        return render_template("task/create.html", menu_page="tasks", projects_list=projects_list)
+        current_project_id = request.args.get('project', projects_list[0].id)
+        return render_template("task/create.html", menu_page="tasks", projects_list=projects_list, current_project_id=current_project_id)
 
 
 @app.route("/task/edit", methods=["GET", "POST"])

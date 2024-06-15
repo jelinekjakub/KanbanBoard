@@ -5,7 +5,7 @@
 <main class="flex bg-white p-12 w-full text-slate-800">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
-            <a href="{{ url_for('task_create') }}">
+            <a href="{{ url_for('task_create') }}?project={{ current_project.id }}">
                 <div class="flex flex-row gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -14,9 +14,30 @@
                 </div>
             </a>
         </div>
+
     </div>
     <div class="flex flex-col w-full">
         <h1 class="text-2xl mb-8 font-semibold ">Tabule</h1>
+        <div class="flex flex-row gap-4 items-center content-center">
+            <form class="flex flex-row gap-4 items-center content-center" action="{{ url_for("board") }}" method="GET">
+                <label for="project" class="block text-sm font-semibold leading-6 text-gray-900">Projekt:</label>
+                <div class="">
+                    <select id="project" name="project" required
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                {% for project in projects_list %}
+                                    <option value="{{ project.id}}"  {{ 'selected' if project.id == current_project.id else '' }}>{{ project.name }}</option>
+                                {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <button type="submit"
+                            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Přejít na tabuli
+                    </button>
+                </div>
+            </form>
+        </div>
+        <hr class="my-4">
         <div class="grid grid-cols-3 gap-2">
             {% for task_status in task_statuses %}
             <div class="bg-slate-50 rounded-lg shadow-sm p-4">

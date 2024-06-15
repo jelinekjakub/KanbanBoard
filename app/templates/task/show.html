@@ -3,7 +3,7 @@
 {% block title %}Detail úkolu{% endblock %}
 {% block content %}
 <main class="flex bg-white p-12 w-full text-slate-800 relative">
-    <a href="{{ url_for('board') }}" class="flex-none absolute top-0 right-0 pr-12 pt-12">
+    <a href="{{ url_for('board') }}?project={{task.project_id}}" class="flex-none absolute top-0 right-0 pr-12 pt-12">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
@@ -35,32 +35,32 @@
                     </dd>
                 </div>
             </dl>
-            <form action="" class="mt-8">
+            <form action="{{ url_for('task_show') }}?id={{ task.id }}" class="mt-8" method="POST">
                 <div class="py-4 mb-12 md:px-64 w-full grid grid-rows-1 md:grid-rows-4">
                     <span class="text-sm font-medium leading-6 text-gray-900 text-center">Status</span>
                     <label>
-                        <input checked type="radio" value="todo" class="peer hidden" name="status">
+                        <input {{ 'Checked' if task.status.name == 'TO_DO' else '' }} type="radio" value="TO_DO" class="peer hidden" name="status">
                         <div class="flex justify-center text-slate-800 text-sm bg-white border border-2 cursor-pointer border-slate-200 border-b-white rounded-t-lg font-medium p-4 hover:bg-slate-100 peer-checked:border-indigo-500">
                             <h2 class="font-base text-gray-700">Udělat</h2>
                         </div>
                     </label>
 
                     <label>
-                        <input type="radio" value="progress" class="peer hidden" name="status">
+                        <input {{ 'Checked' if task.status.name == 'IN_PROGRESS' else '' }} type="radio" value="IN_PROGRESS" class="peer hidden" name="status">
                         <div class="flex justify-center text-slate-800 text-sm bg-white border border-2 cursor-pointer border-slate-200 font-medium p-4 hover:bg-slate-100 peer-checked:border-indigo-500">
                             <h2 class="font-base text-gray-700">V průběhu</h2>
                         </div>
                     </label>
 
                     <label>
-                        <input type="radio" value="done" class="peer hidden" name="status">
+                        <input {{ 'Checked' if task.status.name == 'FINISHED' else '' }} type="radio" value="FINISHED" class="peer hidden" name="status">
                         <div class="flex justify-center text-slate-800 text-sm bg-white border border-2 cursor-pointer border-slate-200 rounded-b-lg border-t-white font-medium p-4 hover:bg-slate-100 peer-checked:border-indigo-500">
                             <h2 class="font-base text-gray-700">Hotovo</h2>
                         </div>
                     </label>
                 </div>
                 <div class="grid grid-cols-3 rounded-md shadow-sm w-full">
-                    <button disabled type="submit"
+                    <button type="submit"
                             class="disabled:text-slate-300 flex-1 text-slate-800 hover:text-indigo-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium p-4 inline-flex space-x-1 items-center justify-center">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
