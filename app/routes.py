@@ -142,9 +142,24 @@ def project_create():
         db.session.commit()
         return redirect(url_for('project_index'))
     else:
-        context = {"menu_page": "projects"}
-        return render_template("project/create.html", context=context)
+        return render_template("project/create.html", menu_page="projects")
 
+@app.route("/project/edit", methods=["GET", "POST"])
+@auth
+def project_edit():
+    project_id = request.args.get('id')
+    project = Project.query.filter(Project.id == project_id).first()
+    if not project:
+        return abort(404)
+    if request.method == "POST":
+        project.name = request.form["name"]
+        project.deadline_date = date.fromisoformat(request.form["deadline"])
+        db.session.commit()
+        flash(f"Projekt {project.name} byl upraven.", "success")
+        return redirect(url_for('project_index'))
+    else:
+        return render_template("project/edit.html", menu_page="projects", project=project)
+    
 
 @app.route("/stats")
 @auth

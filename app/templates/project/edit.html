@@ -1,11 +1,11 @@
 {% extends "layouts/default.html" %}
 
-{% block title %}Upravit úkol{% endblock %}
+{% block title %}Upravit projekt{% endblock %}
 {% block content %}
 <main class="flex bg-white p-12 w-full text-slate-800 relative">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
-            <a href="{{ url_for('task_show') }}?id={{ task.id }}">
+            <a href="{{ url_for('project_index') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                      class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
@@ -15,19 +15,19 @@
     </div>
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">Upravit úkol</h1>
-        <form class="space-y-4 w-full md:w-1/2" method="POST" action="{{ url_for('task_edit') }}?id={{ task.id }}">
+        <form class="space-y-4 w-full md:w-1/2" method="POST" action="{{ url_for('project_edit') }}?id={{ project.id }}">
             <div>
                 <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Název</label>
                 <div class="mt-2">
-                    <input id="name" name="name" type="text" value="{{ task.name }}" required
+                    <input id="name" name="name" type="text" value="{{ project.name }}" required
                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
             <div>
-                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Popis</label>
+                <label for="deadline" class="block text-sm font-medium leading-6 text-gray-900">Deadline</label>
                 <div class="mt-2">
-                    <textarea id="description" name="description" required 
-                           class="block w-full min-h-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{ task.description }}</textarea>
+                    <input id="deadline" name="deadline" type="date" required value="{{ project.deadline_date }}" 
+                           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
             </div>
 

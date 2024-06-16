@@ -75,7 +75,6 @@ class Project(db.Model):
         project_tasks_count = project_tasks.count()
         todo_tasks_count = project_tasks.filter(Task.status == TaskStatus.TO_DO).count()
         finished_tasks_count = project_tasks.filter(Task.status == TaskStatus.FINISHED).count()
-        print(project_tasks_count)
         if project_tasks_count == 0 or project_tasks_count == todo_tasks_count:
             return ProjectStatus.PLANNED
         elif project_tasks_count == finished_tasks_count:
