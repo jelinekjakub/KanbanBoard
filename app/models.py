@@ -73,8 +73,8 @@ class Project(db.Model):
     def status(self):        
         project_tasks = Task.query.filter(Task.project_id == self.id)
         project_tasks_count = project_tasks.count()
-        todo_tasks_count = project_tasks.filter(Task.status == TaskStatus.TO_DO).count()
-        finished_tasks_count = project_tasks.filter(Task.status == TaskStatus.FINISHED).count()
+        todo_tasks_count = project_tasks.filter(Task._status == TaskStatus.TO_DO).count()
+        finished_tasks_count = project_tasks.filter(Task._status == TaskStatus.FINISHED).count()
         if project_tasks_count == 0 or project_tasks_count == todo_tasks_count:
             return ProjectStatus.PLANNED
         elif project_tasks_count == finished_tasks_count:
@@ -94,6 +94,25 @@ class Task(db.Model):
     start_date = db.Column(db.Date, nullable=False, default=datetime.today)
     finished_date = db.Column(db.Date, nullable=True)
     deadline_date = db.Column(db.Date, nullable=True)
-    status = db.Column(db.Enum(TaskStatus), nullable=False, default=TaskStatus.TO_DO)
+    _status = db.Column(db.Enum(TaskStatus), nullable=False, default=TaskStatus.TO_DO)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'),
         nullable=False)
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, new_status):
+        self._status = new_status
+        if new_status == TaskStatus.FINISHED:
+            self.finished_date = datetime.today()
+            
+    def __init__(self, name, description=None, start_date=None, finished_date=None, deadline_date=None, status=TaskStatus.TO_DO, project_id=None):
+        self.name = name
+        self.description = description
+        self.start_date = start_date if start_date else datetime.today()
+        self.finished_date = finished_date
+        self.deadline_date = deadline_date
+        self._status = status
+        self.project_id = project_id
