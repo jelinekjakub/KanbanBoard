@@ -116,11 +116,12 @@ def task_edit():
 def task_delete():
     task_id = request.args.get('id')
     task = Task.query.filter(Task.id == task_id).first()
+    task_project_id = task.project_id
     if not task:
         return abort(404)
     db.session.delete(task)
     db.session.commit()
-    return redirect(url_for('board'))
+    return redirect(f"{url_for('board')}?project={task_project_id}")
 
 @app.route("/projects")
 @auth
