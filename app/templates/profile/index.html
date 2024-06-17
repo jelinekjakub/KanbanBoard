@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../static/css/project-status.css">
 <main class="flex bg-gray-50 p-12 w-full text-slate-800 relative">
     <div class="w-full flex flex-col items-center">
-        <h1 class="flex-none text-2xl mb-8 font-semibold">Profil</h1>
+        <h1 class="flex-none text-2xl mb-8 font-semibold">Nedělat mám to jenom jako template do budoucna</h1>
 
         <!-- Má tým -->
         <div x-data="{ open: false }"
@@ -67,46 +67,7 @@
         </div>
 
         <!-- Nemá tým -->
-        <div x-data="{ open: false }"
-             id="create_team"
-             class="mt-6 p-3 rounded-lg bg-white shadow w-full lg:w-2/3 xl:w-1/2">
-            <div x-show="!open">
-                <h2 class="mb-4 font-semibold text-lg">Tým</h2>
-                <form>
-                    <div>
-                        <p class="mt-1 text-sm text-gray-500 leading-6">
-                            Nemáte ještě svůj tým, abyste mohli pracovat na projektu ve více lidech, musíte si tým založit,
-                            nebo musíte obdržet <a href="{{ url_for('team') }}" class="text-indigo-500 font-semibold">pozvánku</a>.<br>
-                            Založením týmu budete teamleader, a později můžete zvát další členy do týmu.
-                        </p>
-                    </div>
-                    <div class="pt-8 flex justify-end">
-                        <button @click.prevent="open = true"
-                            class="flex w-full md:w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Vytvořit
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div x-show="open">
-                <h2 class="mb-4 font-semibold text-lg">Tým</h2>
-                <form>
-                    <div>
-                        <label for="team_name" class="block text-sm font-medium leading-6 text-gray-900">Název týmu</label>
-                        <div class="mt-2">
-                            <input id="team_name" name="team_name" required
-                                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                        </div>
-                    </div>
-                    <div class="pt-8 flex justify-end">
-                        <button type="submit"
-                            class="flex w-full md:w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                            Vytvořit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+
     </div>
 </main>
 {% endblock %}

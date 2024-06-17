@@ -199,4 +199,4 @@ def team():
 @app.route("/no_team")
 @auth
 def no_team():
-    return render_template("team/no_team.html", menu_page="team")
+    return render_template("team/overview.html", menu_page="team")
