@@ -166,3 +166,9 @@ def project_edit():
 @auth
 def stats_index():
     return render_template("stats/index.html", menu_page="stats")
+
+
+@app.route("/profile")
+@auth
+def profile():
+    return render_template("profile/index.html", menu_page="profile")
