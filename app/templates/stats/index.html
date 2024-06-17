@@ -8,33 +8,110 @@
         <div class="p-4 w-full">
             <div class="grid grid-cols-2 p-8">
                 <div class="col-span-1">
-                    <a href="#" class="h-64 flex justify-center items-center flex-col transition-all duration-300 ease-in-out border border-gray-200 hover:border-gray-300 hover:bg-gray-100 text-gray-800 shadow-sm lg:rounded-l-xl p-6">
-                        <div class="flex items-center">
-                            <div class="h-12 w-12 rounded-xl flex items-center justify-center bg-gray-300">
-                                <!-- Replace with your SVG icon or other content -->
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8 text-gray-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
-                                </svg>
+                    <div x-data="{ showModal: false }"
+                        class="h-64 flex justify-center items-center flex-col transition-all duration-300 ease-in-out border border-gray-200 hover:border-gray-300 hover:bg-gray-100 text-gray-800 shadow lg:rounded-l-xl">
+                        <div @click="showModal = true" class="w-full h-full p-6 cursor-pointer flex flex-col items-center justify-center">
+                            <div class="flex items-center">
+                                <div class="h-12 w-12 rounded-xl flex items-center justify-center bg-gray-300">
+                                    <!-- Replace with your SVG icon or other content -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8 text-gray-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                                    </svg>
+                                </div>
+                                <div class="text-xl font-semibold uppercase pl-4">Burndown</div>
                             </div>
-                            <div class="text-xl font-semibold uppercase pl-4">Burndown</div>
+                            <p class="mt-4 text-sm text-center">Vizuální nástroj ukazující zbývající práci v čase. Používá se ve Scrumu ke sledování pokroku během sprintu.</p>
                         </div>
-                        <p class="mt-4 text-sm text-center">Vizuální nástroj ukazující zbývající práci v čase. Používá se ve Scrumu ke sledování pokroku během sprintu.</p>
-                    </a>
+
+                        <!-- Modal -->
+                        <div x-show="showModal"
+                             class="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75">
+                            <div class="flex items-center justify-center min-h-screen">
+                                <form action="{{ url_for('burndown') }}" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div @click.away="showModal=false"
+                                         class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div class="sm:flex sm:flex-col sm:items-start">
+                                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <h3 class="text-base font-semibold leading-6 text-gray-900">Vyberte projekt</h3>
+                                                <div class="mt-2">
+                                                    <p class="text-sm text-gray-500">Vyberte, pro který projekt chcete tuto statistiku zobrazit</p>
+                                                </div>
+                                            </div>
+                                            <div class="px-4 mt-4 w-full">
+                                                <label for="project_burndown" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                                                <div class="mt-2">
+                                                    <select id="project_burndown" name="project" required
+                                                           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <option value="1">Projekt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button type="submit"
+                                                class="ml-3 flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                            Vybrat
+                                        </button>
+                                        <button @click.prevent="showModal=false" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Zrušit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-span-1">
-                    <a href="#" class="h-64 flex justify-center items-center flex-col transition-all duration-300 ease-in-out border border-gray-500 hover:border-gray-700 hover:bg-indigo-700 bg-indigo-600 text-white shadow-sm lg:rounded-r-xl p-6">
-                        <div class="flex items-center">
-                            <div class="h-12 w-12 rounded-xl flex items-center justify-center bg-indigo-800">
-                                <!-- Replace with your SVG icon or other content -->
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8 text-white">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                                </svg>
+                    <div x-data="{ showModal: false }"
+                        class="h-64 flex justify-center items-center flex-col transition-all duration-300 ease-in-out border border-gray-500 hover:border-gray-700 hover:bg-indigo-700 bg-indigo-600 text-white shadow lg:rounded-r-xl">
+                        <div @click="showModal = true" class="w-full h-full p-6 cursor-pointer flex flex-col items-center justify-center">
+                            <div class="flex items-center">
+                                <div class="h-12 w-12 rounded-xl flex items-center justify-center bg-indigo-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                                    </svg>
+                                </div>
+                                <div class="text-xl font-semibold uppercase pl-4">Velocity</div>
                             </div>
-                            <div class="text-xl font-semibold uppercase pl-4">Velocity</div>
+                            <p class="mt-4 text-sm text-center">Graf zobrazující rychlost týmu v plnění úkolů během sprintů. Pomáhá sledovat a plánovat výkon týmu.</p>
                         </div>
-                        <p class="mt-4 text-sm text-center">Graf zobrazující rychlost týmu v plnění úkolů během sprintů. Pomáhá sledovat a plánovat výkon týmu.</p>
-                    </a>
+
+                        <!-- Modal -->
+                        <div x-show="showModal"
+                             class="fixed inset-0 z-50 overflow-auto bg-gray-500 bg-opacity-75">
+                            <div class="flex items-center justify-center min-h-screen">
+                                <form action="{{ url_for('velocity') }}" class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div @click.away="showModal=false"
+                                         class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div class="sm:flex sm:flex-col sm:items-start">
+                                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Vyberte projekt</h3>
+                                                <div class="mt-2">
+                                                    <p class="text-sm text-gray-500">Vyberte, pro který projekt chcete tuto statistiku zobrazit</p>
+                                                </div>
+                                            </div>
+                                            <div class="px-4 mt-4 w-full">
+                                                <label for="project_velocity" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                                                <div class="mt-2">
+                                                    <select id="project_velocity" name="project" required
+                                                           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        <option value="1">Projekt</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button type="submit"
+                                                class="ml-3 flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                            Vybrat
+                                        </button>
+                                        <button @click.prevent="showModal=false" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Zrušit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

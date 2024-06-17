@@ -1,0 +1,80 @@
+{% extends "layouts/default.html" %}
+
+{% block title %}Burndown{% endblock %}
+{% block content %}
+<main class="flex bg-white p-12 w-full text-slate-800 relative">
+    <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
+        <div class="flex gap-12 flex-row items-center">
+            <a href="{{ url_for('stats_index') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <h1 class="text-2xl mb-8 font-semibold">Burndown</h1>
+
+        <div class="flex items-center justify-center ">
+            <div class="flex flex-col justify-between">
+                <div class="mt-6">
+                    <canvas id="myChart" width="1000" height="400" role="img"></canvas>
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>const chart = new Chart(document.getElementById("myChart"), {
+              type: "line",
+              data: {
+                labels: [
+                  "Den 1",
+                  "Den 2",
+                  "Den 3",
+                  "Den 4",
+                  "Den 5",
+                  "Den 6",
+                  "Den 7",
+                  "Den 8",
+                  "Den 9",
+                  "Den 10",
+                  "Den 11",
+                  "Den 12",
+                ],
+                datasets: [
+                  {
+                    label: "Zbývající práce (%)",
+                    borderColor: "rgb(67,56,202)",
+                    data: [1, 0.9, 0.85, 0.8, 0.7, 0.6, 0.5, 0.42, 0.28, 0.2, 0.1, 0],
+                    fill: false,
+                    pointBackgroundColor: "rgb(67,56,202)",
+                    borderWidth: "3",
+                    pointBorderWidth: "4",
+                    pointHoverRadius: "6",
+                    pointHoverBorderWidth: "8",
+                    pointHoverBorderColor: "rgb(67,56,202,0.2)"
+                  }
+                ]
+              },
+              options: {
+                legend: {
+                  position: false
+                },
+                scales: {
+                  yAxes: [
+                    {
+                      gridLines: {
+                        display: false
+                      },
+                      display: false
+                    }
+                  ]
+                }
+              }
+            });
+            </script>
+        </div>
+    </div>
+</main>
+{% endblock %}

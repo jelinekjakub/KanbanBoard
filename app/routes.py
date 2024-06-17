@@ -3,7 +3,7 @@ from app import app
 from app import db
 from datetime import date
 from app.models import Project, ProjectStatus, Task, TaskStatus, User
-from app.helpers import auth
+from app.helpers import auth, has_team
 
 
 @app.errorhandler(404)
@@ -111,6 +111,7 @@ def task_edit():
     else:
         return render_template("task/edit.html", menu_page="tasks", task=task)
 
+
 @app.route("/task/delete", methods=["GET"])
 @auth
 def task_delete():
@@ -122,6 +123,7 @@ def task_delete():
     db.session.delete(task)
     db.session.commit()
     return redirect(f"{url_for('board')}?project={task_project_id}")
+
 
 @app.route("/projects")
 @auth
@@ -144,6 +146,7 @@ def project_create():
         return redirect(url_for('project_index'))
     else:
         return render_template("project/create.html", menu_page="projects")
+
 
 @app.route("/project/edit", methods=["GET", "POST"])
 @auth
@@ -172,3 +175,28 @@ def stats_index():
 @auth
 def profile():
     return render_template("profile/index.html", menu_page="profile")
+
+
+@app.route("/stats/burndown")
+@auth
+def burndown():
+    return render_template("stats/burndown.html", menu_page="stats")
+
+
+@app.route("/stats/velocity")
+@auth
+def velocity():
+    return render_template("stats/velocity.html", menu_page="stats")
+
+
+@app.route("/team")
+@auth
+@has_team
+def team():
+    return render_template("team/index.html", menu_page="team")
+
+
+@app.route("/no_team")
+@auth
+def no_team():
+    return render_template("team/no_team.html", menu_page="team")
