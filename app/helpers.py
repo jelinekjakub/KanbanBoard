@@ -16,7 +16,7 @@ def has_team(wrapped=None, instance=None, args=None, kwargs=None):
     if not session['user']:
         return redirect(url_for('login'))
 
-    if 'team' not in session['user'].keys():
+    if 'team_id' not in session['user'].keys():
         # flash("Pro vstup musíte mít team", "info")
         return redirect(url_for('no_team'))
 
@@ -29,8 +29,10 @@ def start_session(user):
     session['user'] = {
         "id": user.id,
         "name": user.name,
-        "email": user.email
+        "email": user.email,
     }
+    if user.team_id is not None:
+        session['user']['team_id'] = user.team_id
     return redirect(url_for('index'))
 
 

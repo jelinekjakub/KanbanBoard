@@ -1,9 +1,9 @@
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request, url_for, session
 from app import app
 from app import db
 from datetime import date
-from app.models import Project, ProjectStatus, Task, TaskStatus, User
-from app.helpers import auth, has_team
+from app.models import Project, ProjectStatus, Task, TaskStatus, Team, TeamInvite,  TeamRoles, User
+from app.helpers import auth, has_team, start_session
 
 
 @app.errorhandler(404)
@@ -193,10 +193,65 @@ def velocity():
 @auth
 @has_team
 def team():
-    return render_template("team/index.html", menu_page="team")
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    return render_template("team/index.html", menu_page="team", current_user=current_user)
 
 
 @app.route("/no_team")
 @auth
 def no_team():
-    return render_template("team/overview.html", menu_page="team")
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    return render_template("team/overview.html", menu_page="team", current_user=current_user)
+
+@app.route("/team/new", methods=["POST"])
+@auth
+def team_create():
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    if current_user.team_id is None: 
+        new_team = Team(name = request.form["team_name"])
+        db.session.add(new_team)
+        db.session.commit()
+        current_user.change_team(new_team.id, TeamRoles.LEADER)
+        db.session.commit()
+        start_session(current_user)
+    else:
+        flash("Nemůžete si založit nový tým, protože již jste členem nějakého týmu.", "danger")
+    return redirect(url_for("team"))
+
+@app.route("/team/invite", methods=["POST"])
+@auth
+def team_invite():
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    if current_user.team_role == TeamRoles.LEADER: 
+        invited_user = User.query.filter(User.email == request.form['member_email']).first()
+        if not invited_user or invited_user == current_user:
+            flash("Tohoto uživatele nelze pozvat do teamu!", "danger")
+        elif TeamInvite.query.filter(TeamInvite.user_id == invited_user.id, TeamInvite.team_id == current_user.team_id).first():
+            flash("Uživatel byl již do tohoto týmu pován!", "danger")
+        else:
+            new_invite = TeamInvite(invited_user.id, current_user.team_id)
+            db.session.add(new_invite)
+            db.session.commit()
+            flash(f"Uživateli {invited_user.name} jsme odeslali pozvánku do týmu {current_user.team.name}.", "success")
+    else:
+        flash("Nemůžete pozvat uživatele do teamu, protože nejste leaderem týmu!", "danger")
+    return redirect(url_for("team"))
+
+@app.route("/team/invite_accept", methods=["POST"])
+@auth
+def team_invite_accept():
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    team_id = request.form['team_id']
+    team_invite = TeamInvite.query.filter(TeamInvite.user_id == current_user.id, TeamInvite.team_id == team_id)
+    if team_invite and current_user.team_id is None: 
+        current_user.change_team(team_id, TeamRoles.MEMBER)
+        db.session.delete(team_invite)
+        db.session.commit()
+        start_session(current_user)
+    elif current_user.team_id is not None:
+        flash("Nemůžete být členem více týmů!", "danger")
+    else:
+        flash("Pozvánka to tohoto teamu neexistuje!", "danger")
+    return redirect(url_for("team"))
+
+
