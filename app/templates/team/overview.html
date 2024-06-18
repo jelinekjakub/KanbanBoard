@@ -18,8 +18,7 @@
         <h1 class="text-2xl mb-8 font-semibold">Team</h1>
 
         <h2 class="text-lg mb-8 font-semibold">Oznámení</h2>
-        {% if current_user.invites %}
-         {% for team_invite in current_user.invites %}
+        {% for team_invite in current_user.invites %}
         <div class="mb-8 rounded-lg bg-white shadow">
             <div class="flex w-full items-center justify-between space-x-6 p-6">
                 <div>
@@ -30,14 +29,13 @@
                 </div>
                 <form method="POST" action="{{ url_for('team_invite_accept') }}">
                     <input type="hidden" id="team_id" name="team_id" value="{{ team_invite.team.id }}">
-                <button type="submit"
-                    class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Přijmout
-                </button>
-            </form>
+                    <button type="submit"
+                        class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        Přijmout
+                    </button>
+                </form>
             </div>
         </div>
-        {% endfor  %}
         {% else %}
         <div class="mb-8 rounded-lg bg-white shadow">
             <div class="flex w-full items-center justify-between space-x-6 p-6">
@@ -48,7 +46,7 @@
                 </div>
             </div>
         </div>
-        {% endif %}
+        {% endfor %}
         <h2 class="text-lg mb-8 font-semibold">Správa týmu</h2>
         {% if not current_user.team_id %}
         <div x-data="{ open: false }"
@@ -132,6 +130,50 @@
             </div>
         </div>
         {% endif %}
+
+        <div class="mb-8 rounded-lg bg-white shadow">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900">
+                        Opustit tým
+                        <span class="text-sm font-light text-gray-500">Návrh</span>
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Můžete opustit tým, po opuštění týmu nebudete již moci spolupracovat na týmových projektech
+                        současného týmu.
+                    </p>
+                </div>
+                <form action="">
+                    <input type="hidden" id="" name="" value="">
+                    <button type="submit"
+                        class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                        Opustit tým
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mb-8 rounded-lg bg-white shadow">
+            <div class="flex w-full items-center justify-between space-x-6 p-6">
+                <div>
+                    <h3 class="text-sm font-medium text-gray-900">
+                        Odstranit tým
+                        <span class="text-sm font-light text-gray-500">Návrh (teamleader)</span>
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Můžete odstranit tým včetně všech týmových projektů. Pozor, tato akce je nevratná a všechny
+                        data týmu budou nenávratně ztracena.
+                    </p>
+                </div>
+                <form action="">
+                    <input type="hidden" id="" name="" value="">
+                    <button type="submit"
+                        class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
+                        Odstranit tým
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}
