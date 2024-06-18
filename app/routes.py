@@ -242,7 +242,7 @@ def team_invite():
 def team_invite_accept():
     current_user = User.query.filter(User.id == session['user_id']).first()
     team_id = request.form['team_id']
-    team_invite = TeamInvite.query.filter(TeamInvite.user_id == current_user.id, TeamInvite.team_id == team_id)
+    team_invite = TeamInvite.query.filter(TeamInvite.user_id == current_user.id, TeamInvite.team_id == team_id).first()
     if team_invite and current_user.team_id is None: 
         current_user.change_team(team_id, TeamRoles.MEMBER)
         db.session.delete(team_invite)
