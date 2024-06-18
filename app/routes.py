@@ -197,11 +197,12 @@ def team():
     return render_template("team/index.html", menu_page="team", current_user=current_user)
 
 
-@app.route("/no_team")
+@app.route("/overview")
 @auth
-def no_team():
+def team_overview():
     current_user = User.query.filter(User.id == session['user_id']).first()
     return render_template("team/overview.html", menu_page="team", current_user=current_user)
+
 
 @app.route("/team/new", methods=["POST"])
 @auth
@@ -217,6 +218,7 @@ def team_create():
     else:
         flash("Nemůžete si založit nový tým, protože již jste členem nějakého týmu.", "danger")
     return redirect(url_for("team"))
+
 
 @app.route("/team/invite", methods=["POST"])
 @auth
@@ -237,6 +239,7 @@ def team_invite():
         flash("Nemůžete pozvat uživatele do teamu, protože nejste leaderem týmu!", "danger")
     return redirect(url_for("team"))
 
+
 @app.route("/team/invite_accept", methods=["POST"])
 @auth
 def team_invite_accept():
@@ -253,5 +256,3 @@ def team_invite_accept():
     else:
         flash("Pozvánka to tohoto teamu neexistuje!", "danger")
     return redirect(url_for("team"))
-
-

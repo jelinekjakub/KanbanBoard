@@ -18,7 +18,7 @@ def has_team(wrapped=None, instance=None, args=None, kwargs=None):
 
     if 'team_id' not in session['user'].keys():
         # flash("Pro vstup musíte mít team", "info")
-        return redirect(url_for('no_team'))
+        return redirect(url_for('team_overview'))
 
     return wrapped(*args, **kwargs)
 
