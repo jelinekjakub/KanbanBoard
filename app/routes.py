@@ -42,7 +42,7 @@ def logout():
 @app.route("/board")
 @auth
 def board():
-    projects = Project.query_user_projects(session['user_id'])
+    projects = Project.query_user_projects(session['user_id']).all()
     if not projects:
         flash("Nejprve si musíte založit projekt!", "info")
         return redirect(url_for("project_create"))
@@ -62,8 +62,8 @@ def board():
 def task_show():
     task_id = request.args.get('id')
     task = Task.query.filter(Task.id == task_id).first()
-    if not task:
-        return abort(404)
+    if not task or not task.has_access(session['user_id']):
+        return abort(404)        
     if request.method == "POST":
         task.status = TaskStatus[request.form['status']]
         db.session.commit()
@@ -88,7 +88,7 @@ def task_create():
         db.session.commit()
         return redirect(f"{url_for('board')}?project={project_id}")
     else:
-        projects_list = Project.query.filter(Project.status != ProjectStatus.FINISHED).all()
+        projects_list = Project.query_user_projects(session['user_id']).filter(Project.status != ProjectStatus.FINISHED).all()
         if not projects_list:
             flash("Nejprve si musíte založit projekt!", "info")
             return redirect(url_for("project_create"))
@@ -102,7 +102,7 @@ def task_create():
 def task_edit():
     task_id = request.args.get('id')
     task = Task.query.filter(Task.id == task_id).first()
-    if not task:
+    if not task or not task.has_access(session['user_id']):
         return abort(404)
     if request.method == "POST":
         task.name = request.form["name"]
@@ -119,7 +119,7 @@ def task_delete():
     task_id = request.args.get('id')
     task = Task.query.filter(Task.id == task_id).first()
     task_project_id = task.project_id
-    if not task:
+    if not task or not task.has_access(session['user_id']):
         return abort(404)
     db.session.delete(task)
     db.session.commit()
@@ -129,7 +129,7 @@ def task_delete():
 @app.route("/projects")
 @auth
 def project_index():
-    projects = Project.query_user_projects(session['user_id'])
+    projects = Project.query_user_projects(session['user_id']).all()
     return render_template("project/index.html", menu_page="projects", projects_list=projects)
 
 

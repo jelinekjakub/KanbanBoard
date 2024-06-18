@@ -119,13 +119,13 @@ class Project(db.Model):
     def query_user_projects(user_id):
         current_user = User.query.filter(User.id == user_id).first()
         if not current_user:
-            return []
+            return Project.query.filter(False)
         user_projects = Project.query.filter(Project.user_id == user_id)
         has_team = current_user.team_id is not None
         if has_team:
             team_projects = Project.query.filter(Project.team_id == current_user.team_id)
-            user_projects = user_projects.union(team_projects).all()
-        return list(user_projects)
+            user_projects = user_projects.union(team_projects)
+        return user_projects
 
 
 class Task(db.Model):
@@ -167,6 +167,15 @@ class Task(db.Model):
         self.deadline_date = deadline_date
         self._status = status
         self.project_id = project_id
+    
+    def has_access(self, user_id):
+        if self.project.user_id == user_id:
+            return True
+        current_user = User.query.filter(User.id == user_id).first()
+        if current_user and current_user.team_id is not None and self.project.team_id == current_user.team_id:
+            return True
+        else:
+            return False
 
 
 class Team(db.Model):
