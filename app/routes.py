@@ -142,7 +142,7 @@ def project_create():
             start_date=date.fromisoformat(request.form["date"]),
             deadline_date=date.fromisoformat(request.form["deadline"]),
             user_id=session['user_id'],
-            team_id=session['user'].get('team_id') if request.form["share"] else None
+            team_id=session['user'].get('team_id') if request.form.get("share", False) else None
         )
         db.session.add(new_project)
         db.session.commit()
@@ -161,7 +161,7 @@ def project_edit():
     if request.method == "POST":
         project.name = request.form["name"]
         project.deadline_date = date.fromisoformat(request.form["deadline"])
-        project.team_id=session['user'].get('team_id') if request.form["share"] else None
+        project.team_id=session['user'].get('team_id') if request.form.get("share", False) else None
         db.session.commit()
         flash(f"Projekt {project.name} byl upraven.", "success")
         return redirect(url_for('project_index'))
