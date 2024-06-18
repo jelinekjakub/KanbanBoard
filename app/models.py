@@ -33,6 +33,7 @@ class User(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=True)
     team_role = db.Column(db.Enum(TeamRoles), nullable=True)
     invites = db.relationship("TeamInvite", backref="user", lazy=True)
+    projects = db.relationship("Project", backref="user", lazy=True)
 
 
     def register(self):
@@ -83,7 +84,8 @@ class Project(db.Model):
     start_date = db.Column(db.Date, nullable=False, default=datetime.today)
     deadline_date = db.Column(db.Date, nullable=True)
     tasks = db.relationship("Task", backref="project", lazy=True)
-    team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+    team_id = db.Column(db.Integer, db.ForeignKey("teams.id"), nullable=True)
 
     @property
     def days_passed(self):
@@ -112,6 +114,18 @@ class Project(db.Model):
             return ProjectStatus.DELAYED
         else:
             return ProjectStatus.ACTIVE
+    
+    @staticmethod
+    def query_user_projects(user_id):
+        current_user = User.query.filter(User.id == user_id).first()
+        if not current_user:
+            return []
+        user_projects = Project.query.filter(Project.user_id == user_id)
+        has_team = current_user.team_id is not None
+        if has_team:
+            team_projects = Project.query.filter(Project.team_id == current_user.team_id)
+            user_projects = user_projects.union(team_projects).all()
+        return list(user_projects)
 
 
 class Task(db.Model):

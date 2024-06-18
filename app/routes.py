@@ -1,4 +1,5 @@
 from flask import abort, flash, redirect, render_template, request, url_for, session
+from sqlalchemy import or_
 from app import app
 from app import db
 from datetime import date
@@ -41,7 +42,7 @@ def logout():
 @app.route("/board")
 @auth
 def board():
-    projects = Project.query.all()
+    projects = Project.query_user_projects(session['user_id'])
     if not projects:
         flash("Nejprve si musíte založit projekt!", "info")
         return redirect(url_for("project_create"))
@@ -128,7 +129,7 @@ def task_delete():
 @app.route("/projects")
 @auth
 def project_index():
-    projects = Project.query.all()
+    projects = Project.query_user_projects(session['user_id'])
     return render_template("project/index.html", menu_page="projects", projects_list=projects)
 
 
@@ -140,6 +141,8 @@ def project_create():
             name=request.form["name"],
             start_date=date.fromisoformat(request.form["date"]),
             deadline_date=date.fromisoformat(request.form["deadline"]),
+            user_id=session['user_id'],
+            team_id=session['user'].get('team_id') if request.form["share"] else None
         )
         db.session.add(new_project)
         db.session.commit()
@@ -158,6 +161,7 @@ def project_edit():
     if request.method == "POST":
         project.name = request.form["name"]
         project.deadline_date = date.fromisoformat(request.form["deadline"])
+        project.team_id=session['user'].get('team_id') if request.form["share"] else None
         db.session.commit()
         flash(f"Projekt {project.name} byl upraven.", "success")
         return redirect(url_for('project_index'))
