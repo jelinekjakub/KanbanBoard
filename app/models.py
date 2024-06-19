@@ -158,12 +158,16 @@ class Project(db.Model):
             if date in data:
                 current_percent = data[date]
             percent_data.append(current_percent)
+            
         # Create days_all with all days between start_date and end_date
-        total_days = (end_date - self.start_date).days + 1
-        days_all = [f"Den {day}" for day in range(1, total_days + 1)]
+        ideal_total_days = (self.deadline_date - self.start_date).days + 1
 
         # Create ideal percent data
-        ideal_data = [100 - (100 / (total_days - 1)) * day for day in range(total_days)]
+        ideal_data = [100 - (100 / (ideal_total_days - 1)) * day for day in range(ideal_total_days)]
+
+        real_total_days = (end_date - self.start_date).days + 1
+        
+        days_all = [f"Den {day}" for day in range(1, real_total_days + 1)]
 
         return {
             "data": percent_data,
