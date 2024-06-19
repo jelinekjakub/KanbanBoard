@@ -17,58 +17,59 @@
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">{{project.name}} - Burndown</h1>
 
-        <div class="flex items-center justify-center ">
-            <div class="flex flex-col justify-between">
-                <div class="mt-6">
-                    <canvas id="myChart" width="1000" height="400" role="img"></canvas>
+        <div class="flex items-center justify-center w-full">
+            <div class="flex flex-col justify-between w-full">
+                <div class="mt-6 w-full">
+                    <canvas id="burndown" class="w-full object-contain" role="img"></canvas>
                 </div>
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>const chart = new Chart(document.getElementById("myChart"), {
-              type: "line",
-              data: {
-                labels: {{ data['days_all']|tojson }},
-                datasets: [
-                  {
-                    label: "Zbývající práce (%)",
-                    borderColor: "rgb(67,56,202)",
-                    data: {{ data['data']|tojson }},
-                    fill: false,
-                    pointBackgroundColor: "rgb(67,56,202)",
-                    borderWidth: "3",
-                    pointRadius: "0",
-                    pointBorderWidth: "4",
-                    pointHoverRadius: "6",
-                    pointHoverBorderWidth: "8",
-                    pointHoverBorderColor: "rgb(67,56,202,0.2)"
-                  },
-                  {
-                    label: "Ideální zbývající práce (%)",
-                    borderColor: "rgb(56,202,67)",
-                    data: {{ data['ideal_data']|tojson }},
-                    fill: false,
-                    pointBackgroundColor: "rgb(56,202,67)",
-                    borderWidth: "3",
-                    pointRadius: "0",
-                  }
-                ]
-              },
-              options: {
-                legend: {
-                  position: false
+            <script>
+                const chart = new Chart(document.getElementById("burndown"), {
+                type: "line",
+                data: {
+                    labels: {{ data['days_all']|tojson }},
+                    datasets: [
+                        {
+                            label: "Zbývající práce (%)",
+                            borderColor: "rgb(67,56,202)",
+                            data: {{ data['data']|tojson }},
+                            fill: false,
+                            pointBackgroundColor: "rgb(67,56,202)",
+                            borderWidth: "3",
+                            pointRadius: "0",
+                            pointBorderWidth: "4",
+                            pointHoverRadius: "6",
+                            pointHoverBorderWidth: "8",
+                            pointHoverBorderColor: "rgb(67,56,202,0.2)"
+                        },
+                        {
+                            label: "Ideální zbývající práce (%)",
+                            borderColor: "rgb(56,202,67)",
+                            data: {{ data['ideal_data']|tojson }},
+                            fill: false,
+                            pointBackgroundColor: "rgb(56,202,67)",
+                            borderWidth: "3",
+                            pointRadius: "0",
+                        }
+                    ]
                 },
-                scales: {
-                  yAxes: [
-                    {
-                      gridLines: {
-                        display: false
-                      },
-                      display: false
+                options: {
+                    legend: {
+                        position: false
+                    },
+                    scales: {
+                        yAxes: [
+                            {
+                                gridLines: {
+                                    display: false
+                                },
+                                display: false
+                            }
+                        ]
                     }
-                  ]
                 }
-              }
             });
             </script>
         </div>
