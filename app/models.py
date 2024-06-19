@@ -126,6 +126,24 @@ class Project(db.Model):
             team_projects = Project.query.filter(Project.team_id == current_user.team_id)
             user_projects = user_projects.union(team_projects)
         return user_projects
+    
+    def get_burndown_data(self):
+        tasks_count = Task.query.filter(Task.project_id == self.id).count()
+        finished_tasks = Task.query.filter(Task.project_id == self.id, Task.finished_date).order_by(Task.finished_date).all()
+        current_percent = 100
+        data = {self.start_date : current_percent}
+        for task in finished_tasks:
+            current_percent = current_percent - (1/tasks_count)*100
+            data[task.finished_date] = current_percent
+        transformed_data = {1: data[self.start_date]}
+        transformed_data.update({(date - self.start_date).days: value for date, value in data.items() if date != self.start_date})
+        dataset = {
+            "count": tasks_count,
+            "days_data": list(transformed_data.keys()),
+            "percent_data": list(transformed_data.values()),
+        }
+        return dataset
+        
 
 
 class Task(db.Model):

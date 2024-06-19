@@ -188,7 +188,8 @@ def burndown():
     project = Project.query_user_projects(session['user_id']).filter(Project.id==request.args.get('project')).first()
     if not project:
         return abort(404)
-    return render_template("stats/burndown.html", menu_page="stats", project=project)
+    data=project.get_burndown_data()
+    return render_template("stats/burndown.html", menu_page="stats", project=project, data=data)
 
 
 @app.route("/stats/velocity")
