@@ -61,8 +61,8 @@
                             <div class="flex items-center gap-3">
                                 <div class="flex flex-col">
                                     <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
-                                        {{ project.name }}</p>
-                                    <p class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal opacity-70">
+                                        {{ project.name }} <span class="text-gray-500">{{ '(Team)' if project.team_id }}</span></p>
+                                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900/70 font-normal">
                                         Start: {{ project.start_date|format_date }}</p>
                                 </div>
                             </div>
