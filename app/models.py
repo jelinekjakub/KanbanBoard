@@ -80,7 +80,6 @@ class User(db.Model):
         db.session.commit()
         
 
-
 class Project(db.Model):
     __tablename__ = "projects"
 
@@ -150,8 +149,8 @@ class Project(db.Model):
             end_date = self.deadline_date
         elif project_status == ProjectStatus.DELAYED:
             end_date = datetime.today().date()
-        elif project_status == ProjectStatus.FINISHED:
-            end_date = max(self.deadline_date,max(data.keys()))
+        else:
+            end_date = max(self.deadline_date, max(data.keys()))
 
         percent_days = (end_date - self.start_date).days + 1
 
@@ -176,15 +175,15 @@ class Project(db.Model):
         real_total_days = (end_date - self.start_date).days + 1
         
         days_all = [f"Den {day}" for day in range(1, real_total_days + 1)]
-        data_new = [{'x': 'Den 1', 'y': 100}] + [{"x": date, "y": percent} for percent, date in zip(percent_data,days_all)]
+        data_new = [{'x': 'Den 1', 'y': 100}] + [
+                {"x": date, "y": percent} for percent, date in zip(percent_data, days_all)
+            ]
         
         return {
-            "data": percent_data,
+            "data": data_new,
             "days_all": days_all,
-            "data_new": data_new,
             "ideal_data": ideal_data,
         }
-        
 
 
 class Task(db.Model):

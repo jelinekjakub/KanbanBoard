@@ -16,7 +16,7 @@
 
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">{{project.name}} - Burndown</h1>
-        {{data}}
+
         <div class="flex items-center justify-center w-full">
             <div class="flex flex-col justify-between w-full">
                 <div class="mt-6 w-full">
@@ -26,7 +26,7 @@
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
-                const chart = new Chart(document.getElementById("burndown"), {
+            const chart = new Chart(document.getElementById("burndown"), {
                 type: "line",
                 data: {
                     labels: {{ data['days_all']|tojson }},
@@ -54,21 +54,6 @@
                             pointRadius: "0",
                         }
                     ]
-                },
-                options: {
-                    legend: {
-                        position: false
-                    },
-                    scales: {
-                        yAxes: [
-                            {
-                                gridLines: {
-                                    display: false
-                                },
-                                display: false
-                            }
-                        ]
-                    }
                 }
             });
             </script>
