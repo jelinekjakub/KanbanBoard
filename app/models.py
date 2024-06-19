@@ -178,7 +178,8 @@ class Project(db.Model):
         data_new = [{'x': 'Den 1', 'y': 100}] + [
                 {"x": date, "y": percent} for percent, date in zip(percent_data, days_all)
             ]
-        
+        days_diff = real_total_days - ideal_total_days
+        ideal_data += [0 for _ in range(days_diff)]
         return {
             "data": data_new,
             "days_all": days_all,
