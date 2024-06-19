@@ -176,12 +176,15 @@ class Project(db.Model):
         real_total_days = (end_date - self.start_date).days + 1
         
         days_all = [f"Den {day}" for day in range(1, real_total_days + 1)]
-
+        data_new = [{'x': 'Den 1', 'y': 100}] + [{"x": date, "y": percent} for percent, date in zip(percent_data,days_all)]
+        
         return {
             "data": percent_data,
             "days_all": days_all,
+            "data_new": data_new,
             "ideal_data": ideal_data,
         }
+        
 
 
 class Task(db.Model):
