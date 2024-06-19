@@ -155,7 +155,7 @@ def project_create():
 @auth
 def project_edit():
     project_id = request.args.get('id')
-    project = Project.query.filter(Project.id == project_id).first()
+    project = Project.query_user_projects(session['user_id']).filter(Project.id == project_id).first()
     if not project:
         return abort(404)
     if request.method == "POST":
@@ -172,7 +172,8 @@ def project_edit():
 @app.route("/stats")
 @auth
 def stats_index():
-    return render_template("stats/index.html", menu_page="stats")
+    projects = Project.query_user_projects(session['user_id']).all()
+    return render_template("stats/index.html", menu_page="stats", projects=projects)
 
 
 @app.route("/profile")

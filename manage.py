@@ -5,7 +5,7 @@ cli = FlaskGroup(app)
 
 import random
 from app import db
-from app.models import User, Project, Task, TaskStatus
+from app.models import Team, TeamRoles, User, Project, Task, TaskStatus
 from datetime import datetime, timedelta
 from passlib.hash import pbkdf2_sha256
 
@@ -15,15 +15,19 @@ def seed_db():
     db.drop_all()
     db.create_all()
 
+    db.session.add(Team(name="Friends"))
+
+    
     # Add users
     users = [
-        User(name="Alice", email="alice@example.com", password=pbkdf2_sha256.hash("password123")),
-        User(name="Bob", email="bob@example.com", password=pbkdf2_sha256.hash("password123")),
+        User(name="Alice", email="alice@example.com", password=pbkdf2_sha256.hash("password123"), team_id=1, team_role=TeamRoles.LEADER),
+        User(name="Bob", email="bob@example.com", password=pbkdf2_sha256.hash("password123"),team_id=1, team_role=TeamRoles.MEMBER),
         User(name="Charlie", email="charlie@example.com", password=pbkdf2_sha256.hash("password123")),
     ]
     db.session.add_all(users)
     db.session.commit()
-
+    
+    
     task_count = 20
     
     # Project names
@@ -37,7 +41,9 @@ def seed_db():
         project = Project(
             name=project_name,
             start_date=datetime.today() - timedelta(days=random.randint(0, 30)),
-            deadline_date=datetime.today() + timedelta(days=random.randint(30, 60))
+            deadline_date=datetime.today() + timedelta(days=random.randint(30, 60)),
+            user_id=1,
+            team_id=1,
         )
         projects.append(project)
         
@@ -45,7 +51,9 @@ def seed_db():
     delayed_project = Project(
         name="Project Quantum Leap",
         start_date=datetime.today() - timedelta(days=60),
-        deadline_date=datetime.today() - timedelta(days=1)
+        deadline_date=datetime.today() - timedelta(days=1),
+        user_id=3,
+        team_id=None
     )
     projects.append(delayed_project)
 
@@ -53,7 +61,9 @@ def seed_db():
     finished_project = Project(
         name="Project Lambda",
         start_date=datetime.today() - timedelta(days=60),
-        deadline_date=datetime.today() - timedelta(days=30)
+        deadline_date=datetime.today() - timedelta(days=30),
+        user_id=1,
+        team_id=1,
     )
     projects.append(finished_project)
 
@@ -61,7 +71,9 @@ def seed_db():
     planned_project = Project(
         name="Project Hades",
         start_date=datetime.today(),
-        deadline_date=datetime.today() + timedelta(days=60)
+        deadline_date=datetime.today() + timedelta(days=60),
+        user_id=1,
+        team_id=1,
     )
     projects.append(planned_project)
 
