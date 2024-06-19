@@ -15,7 +15,6 @@
     </div>
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">{{project.name}} - Velocity</h1>
-
         <div class="flex items-center justify-center ">
             <div class="flex flex-col justify-between">
                 <div class="mt-6">
@@ -32,7 +31,14 @@
                         {
                             label: "Počet splněných úkolů",
                             borderColor: "rgb(67,56,202)",
-                            data: {{ data|tojson }},
+                            data: {{ data['actual_data']|tojson }},
+                            borderWidth: "3",
+                        },
+                        {
+                            label: "Ideální počet splněných úkolů",
+                            borderColor: "rgb(56,202,67)",
+                            
+                            data: {{ data['ideal_data']|tojson }},
                             borderWidth: "3",
                         }
                     ]
