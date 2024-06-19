@@ -233,14 +233,15 @@ def team_create():
 
 @app.route("/team/invite", methods=["POST"])
 @auth
+@has_team
 def team_invite():
     current_user = User.query.filter(User.id == session['user_id']).first()
     if current_user.team_role == TeamRoles.LEADER: 
         invited_user = User.query.filter(User.email == request.form['member_email']).first()
-        if not invited_user or invited_user == current_user:
+        if not invited_user or invited_user == current_user or invited_user.team_id == current_user.team_id:
             flash("Tohoto uživatele nelze pozvat do teamu!", "danger")
         elif TeamInvite.query.filter(TeamInvite.user_id == invited_user.id, TeamInvite.team_id == current_user.team_id).first():
-            flash("Uživatel byl již do tohoto týmu pován!", "danger")
+            flash("Uživatel byl již do tohoto týmu pozván!", "danger")
         else:
             new_invite = TeamInvite(invited_user.id, current_user.team_id)
             db.session.add(new_invite)
@@ -267,3 +268,37 @@ def team_invite_accept():
     else:
         flash("Pozvánka to tohoto teamu neexistuje!", "danger")
     return redirect(url_for("team"))
+
+
+@app.route("/team/leave", methods=["POST"])
+@auth
+@has_team
+def team_leave():
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    if current_user.team_role != TeamRoles.LEADER:    
+        current_user.change_team(None,None)
+        flash("Úspěšně jste opustili jste team.", "info")
+    else:
+        flash("Jako leader nemůžete opustit team!", "danger")
+    return redirect(url_for("team_overview"))
+
+
+
+@app.route("/team/delete", methods=["POST"])
+@auth
+@has_team
+def team_delete():
+    current_user = User.query.filter(User.id == session['user_id']).first()
+    if current_user.team_role != TeamRoles.LEADER:  
+        flash("Jako pouhý člen nemůžete zrušit team!", "danger")
+    else:
+        team_to_delete = current_user.team
+        for team_member in current_user.team.members:
+            team_member.change_team(None,None)
+        for team_invite in team_to_delete.invites:
+            db.session.delete(team_invite)
+        db.session.delete(team_to_delete)
+        db.session.commit()
+        flash("Úspěšně jste zrušili jste team. Všechny společné projekty byly nastaveny jako privátní.", "info")
+    return redirect(url_for("team_overview"))
+

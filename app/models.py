@@ -72,8 +72,13 @@ class User(db.Model):
         return redirect("/")
     
     def change_team(self, team_id, team_role):
+        for my_project in self.projects:
+            if my_project.team_id:
+                my_project.team_id = team_id
         self.team_id = team_id
         self.team_role = team_role
+        db.session.commit()
+        
 
 
 class Project(db.Model):
@@ -146,7 +151,7 @@ class Project(db.Model):
         elif project_status == ProjectStatus.DELAYED:
             end_date = datetime.today().date()
         elif project_status == ProjectStatus.FINISHED:
-            end_date = max(data.keys())
+            end_date = max(self.deadline_date,max(data.keys()))
 
         percent_days = (end_date - self.start_date).days + 1
 

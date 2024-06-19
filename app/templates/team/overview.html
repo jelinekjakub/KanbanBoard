@@ -131,20 +131,19 @@
         </div>
         {% endif %}
 
+        {% if current_user.team_id and current_user.team_role.name != 'LEADER' %}
         <div class="mb-8 rounded-lg bg-white shadow">
             <div class="flex w-full items-center justify-between space-x-6 p-6">
                 <div>
                     <h3 class="text-sm font-medium text-gray-900">
                         Opustit tým
-                        <span class="text-sm font-light text-gray-500">Návrh</span>
                     </h3>
                     <p class="mt-1 text-sm text-gray-500">
                         Můžete opustit tým, po opuštění týmu nebudete již moci spolupracovat na týmových projektech
                         současného týmu.
                     </p>
                 </div>
-                <form action="">
-                    <input type="hidden" id="" name="" value="">
+                <form action="{{ url_for('team_leave')}}" method="POST">
                     <button type="submit"
                         class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
                         Opustit tým
@@ -152,21 +151,19 @@
                 </form>
             </div>
         </div>
-
+        {% elif current_user.team_id and current_user.team_role.name == 'LEADER' %}
         <div class="mb-8 rounded-lg bg-white shadow">
             <div class="flex w-full items-center justify-between space-x-6 p-6">
                 <div>
                     <h3 class="text-sm font-medium text-gray-900">
                         Odstranit tým
-                        <span class="text-sm font-light text-gray-500">Návrh (teamleader)</span>
                     </h3>
                     <p class="mt-1 text-sm text-gray-500">
                         Můžete odstranit tým včetně všech týmových projektů. Pozor, tato akce je nevratná a všechny
                         data týmu budou nenávratně ztracena.
                     </p>
                 </div>
-                <form action="">
-                    <input type="hidden" id="" name="" value="">
+                <form action="{{ url_for('team_delete')}}" method="POST">
                     <button type="submit"
                         class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">
                         Odstranit tým
@@ -174,6 +171,7 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
 </main>
 {% endblock %}
