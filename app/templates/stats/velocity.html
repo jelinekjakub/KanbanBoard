@@ -29,15 +29,15 @@
                 data: {
                     datasets: [
                         {
-                            label: "Počet splněných úkolů",
+                            label: "Realný počet úkolů",
                             borderColor: "rgb(67,56,202)",
                             data: {{ data['actual_data']|tojson }},
                             borderWidth: "3",
                         },
                         {
-                            label: "Ideální počet splněných úkolů",
+                            label: "Plánovaný počet úkolů",
                             borderColor: "rgb(56,202,67)",
-                            
+
                             data: {{ data['ideal_data']|tojson }},
                             borderWidth: "3",
                         }
