@@ -140,8 +140,15 @@ class Project(db.Model):
             data[task.finished_date] = start_percent
 
         # Determine the end date for percent_data to be the current date or the project deadline, whichever is earlier
-        end_date = min(self.deadline_date, datetime.now().date())
-        percent_days = (end_date - self.start_date).days
+        project_status = self.status
+        if project_status == ProjectStatus.ACTIVE or project_status == ProjectStatus.PLANNED:
+            end_date = self.deadline_date
+        elif project_status == ProjectStatus.DELAYED:
+            end_date = datetime.today()
+        elif project_status == ProjectStatus.FINISHED:
+            end_date = max(data.keys())
+
+        percent_days = (end_date - self.start_date).days + 1
 
         all_dates = [self.start_date + timedelta(days=i) for i in range(percent_days)]
 
@@ -151,9 +158,8 @@ class Project(db.Model):
             if date in data:
                 current_percent = data[date]
             percent_data.append(current_percent)
-
-        # Create days_all with all days between start_date and project_deadline
-        total_days = (self.deadline_date - self.start_date).days + 1
+        # Create days_all with all days between start_date and end_date
+        total_days = (end_date - self.start_date).days + 1
         days_all = [f"Den {day}" for day in range(1, total_days + 1)]
 
         # Create ideal percent data
