@@ -158,6 +158,9 @@ class Project(db.Model):
             if date in data:
                 current_percent = data[date]
             percent_data.append(current_percent)
+
+            if date == datetime.today().date():
+                break
             
         # Create days_all with all days between start_date and end_date
         ideal_total_days = (self.deadline_date - self.start_date).days + 1
