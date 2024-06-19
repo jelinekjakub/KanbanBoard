@@ -161,7 +161,6 @@ def project_edit():
     if request.method == "POST":
         project.name = request.form["name"]
         project.deadline_date = date.fromisoformat(request.form["deadline"])
-        project.team_id=session['user'].get('team_id') if request.form.get("share", False) else None
         db.session.commit()
         flash(f"Projekt {project.name} byl upraven.", "success")
         return redirect(url_for('project_index'))

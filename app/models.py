@@ -200,6 +200,8 @@ class Task(db.Model):
         self._status = new_status
         if new_status == TaskStatus.FINISHED:
             self.finished_date = datetime.today()
+        elif self.finished_date is not None:
+            self.finished_date = None
 
     def __init__(
         self,
