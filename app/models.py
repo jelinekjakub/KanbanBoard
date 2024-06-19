@@ -141,7 +141,7 @@ class Project(db.Model):
 
         # Determine the end date for percent_data to be the current date or the project deadline, whichever is earlier
         end_date = min(self.deadline_date, datetime.now().date())
-        percent_days = (end_date - self.start_date).days + 1
+        percent_days = (end_date - self.start_date).days
 
         all_dates = [self.start_date + timedelta(days=i) for i in range(percent_days)]
 
