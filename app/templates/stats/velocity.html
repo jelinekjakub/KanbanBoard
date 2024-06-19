@@ -24,44 +24,19 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>const chart = new Chart(document.getElementById("myChart"), {
-              type: "bar",
-              data: {
-                labels: [
-                  "Den 1",
-                  "Den 2"
-                ],
-                datasets: [
-                  {
-                    label: "Počet splněných úkolů",
-                    borderColor: "rgb(67,56,202)",
-                    data: [2,3],
-                    borderWidth: "3",
-                  },
-                  {
-                    label: "Očekávaný předpoklad",
-                    borderColor: "rgb(77,124,15)",
-                    data: [3,3],
-                    backgroundColor: "rgb(132,204,22,0.6)",
-                    borderWidth: "3",
-                  }
-                ]
-              },
-              options: {
-                legend: {
-                  position: false
-                },
-                scales: {
-                  yAxes: [
-                    {
-                      gridLines: {
-                        display: false
-                      },
-                      display: false
-                    }
-                  ]
+            <script>
+            const chart = new Chart(document.getElementById("myChart"), {
+                type: "bar",
+                data: {
+                    datasets: [
+                        {
+                            label: "Počet splněných úkolů",
+                            borderColor: "rgb(67,56,202)",
+                            data: {{ data|tojson }},
+                            borderWidth: "3",
+                        }
+                    ]
                 }
-              }
             });
             </script>
         </div>

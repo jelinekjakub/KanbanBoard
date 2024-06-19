@@ -186,6 +186,45 @@ class Project(db.Model):
             "ideal_data": ideal_data,
         }
 
+    def get_velocity_data(self):
+        finished_tasks = Task.query.filter(Task.project_id == self.id, Task.finished_date.isnot(None)).all()
+
+        # Create a dictionary to store the count of tasks completed per week
+        weekly_data = {}
+
+        # Populate the dictionary with the count of tasks completed per week
+        for task in finished_tasks:
+            week_number = task.finished_date.isocalendar()[1]
+            year = task.finished_date.year
+            key = (year, week_number)
+            if key in weekly_data:
+                weekly_data[key] += 1
+            else:
+                weekly_data[key] = 1
+
+        # Fill in weeks with zero tasks completed from start_date to deadline_date
+        start_date = self.start_date
+        end_date = self.deadline_date if self.deadline_date else datetime.today().date()
+        current_date = start_date
+        week_index = 1
+
+        while current_date <= end_date:
+            week_number = current_date.isocalendar()[1]
+            year = current_date.year
+            key = (year, week_number)
+            if key not in weekly_data:
+                weekly_data[key] = 0
+            current_date += timedelta(days=7 - current_date.weekday())  # Move to next Monday
+            week_index += 1
+
+        # Convert the dictionary to a sorted list of dictionaries for the result
+        sorted_weekly_data = sorted(weekly_data.items())
+        result = []
+        for index, ((year, week), count) in enumerate(sorted_weekly_data, start=1):
+            result.append({"x": f"Týden {index}", "y": count})
+
+        return result
+
 
 class Task(db.Model):
     __tablename__ = "tasks"
