@@ -144,7 +144,7 @@ class Project(db.Model):
         if project_status == ProjectStatus.ACTIVE or project_status == ProjectStatus.PLANNED:
             end_date = self.deadline_date
         elif project_status == ProjectStatus.DELAYED:
-            end_date = datetime.today()
+            end_date = datetime.today().date()
         elif project_status == ProjectStatus.FINISHED:
             end_date = max(data.keys())
 
