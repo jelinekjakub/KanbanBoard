@@ -35,7 +35,11 @@
                             label: "Zbývající práce (%)",
                             borderColor: "rgb(67,56,202)",
                             data: {{ data['data']|tojson }},
-                            fill: false,
+                            fill: {
+                                target: 1,
+                                above: 'rgb(202,67,56,0.3)',
+                                below: 'rgb(67,56,202,0.3)'
+                              },
                             pointBackgroundColor: "rgb(67,56,202)",
                             borderWidth: "3",
                             pointRadius: "0",
@@ -46,7 +50,7 @@
                         },
                         {
                             label: "Ideální zbývající práce (%)",
-                            borderColor: "rgb(56,202,67)",
+                            borderColor: "rgb(56,202,67,0.8)",
                             data: {{ data['ideal_data']|tojson }},
                             fill: false,
                             pointBackgroundColor: "rgb(56,202,67)",
