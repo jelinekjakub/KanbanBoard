@@ -2,7 +2,7 @@ import enum
 from flask import flash, request, render_template, redirect
 from passlib.hash import pbkdf2_sha256
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.helpers import start_session, clear_session
 
 
@@ -126,24 +126,44 @@ class Project(db.Model):
             team_projects = Project.query.filter(Project.team_id == current_user.team_id)
             user_projects = user_projects.union(team_projects)
         return user_projects
-    
+
     def get_burndown_data(self):
         tasks_count = Task.query.filter(Task.project_id == self.id).count()
-        finished_tasks = Task.query.filter(Task.project_id == self.id, Task.finished_date).order_by(Task.finished_date).all()
-        current_percent = 100
-        data = {self.start_date : current_percent}
+        finished_tasks = Task.query.filter(Task.project_id == self.id, Task.finished_date).order_by(
+            Task.finished_date).all()
+
+        start_percent = 100
+        data = {self.start_date: start_percent}
+
         for task in finished_tasks:
-            current_percent = current_percent - (1/tasks_count)*100
-            data[task.finished_date] = current_percent
-        transformed_data = {1: data[self.start_date]}
-        transformed_data.update({(date - self.start_date).days: value for date, value in data.items() if date != self.start_date})
-        dataset = {
-            "count": tasks_count,
-            "days_data": list(transformed_data.keys()),
-            "percent_data": list(transformed_data.values()),
+            start_percent -= 100 / tasks_count
+            data[task.finished_date] = start_percent
+
+        # Determine the end date for percent_data to be the current date or the project deadline, whichever is earlier
+        end_date = min(self.deadline_date, datetime.now().date())
+        percent_days = (end_date - self.start_date).days + 1
+
+        all_dates = [self.start_date + timedelta(days=i) for i in range(percent_days)]
+
+        percent_data = []
+        current_percent = 100
+        for date in all_dates:
+            if date in data:
+                current_percent = data[date]
+            percent_data.append(current_percent)
+
+        # Create days_all with all days between start_date and project_deadline
+        total_days = (self.deadline_date - self.start_date).days + 1
+        days_all = [f"Den {day}" for day in range(1, total_days + 1)]
+
+        # Create ideal percent data
+        ideal_data = [100 - (100 / (total_days - 1)) * day for day in range(total_days)]
+
+        return {
+            "data": percent_data,
+            "days_all": days_all,
+            "ideal_data": ideal_data,
         }
-        return dataset
-        
 
 
 class Task(db.Model):

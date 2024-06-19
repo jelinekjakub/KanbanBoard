@@ -16,7 +16,7 @@
 
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">{{project.name}} - Burndown</h1>
-        {{data}}
+
         <div class="flex items-center justify-center ">
             <div class="flex flex-col justify-between">
                 <div class="mt-6">
@@ -28,32 +28,29 @@
             <script>const chart = new Chart(document.getElementById("myChart"), {
               type: "line",
               data: {
-                labels: [
-                  "Den 1",
-                  "Den 2",
-                  "Den 3",
-                  "Den 4",
-                  "Den 5",
-                  "Den 6",
-                  "Den 7",
-                  "Den 8",
-                  "Den 9",
-                  "Den 10",
-                  "Den 11",
-                  "Den 12",
-                ],
+                labels: {{ data['days_all']|tojson }},
                 datasets: [
                   {
                     label: "Zbývající práce (%)",
                     borderColor: "rgb(67,56,202)",
-                    data: [1, 0.9, 0.85, 0.8, 0.7, 0.6, 0.5, 0.42, 0.28, 0.2, 0.1, 0],
+                    data: {{ data['data']|tojson }},
                     fill: false,
                     pointBackgroundColor: "rgb(67,56,202)",
                     borderWidth: "3",
+                    pointRadius: "0",
                     pointBorderWidth: "4",
                     pointHoverRadius: "6",
                     pointHoverBorderWidth: "8",
                     pointHoverBorderColor: "rgb(67,56,202,0.2)"
+                  },
+                  {
+                    label: "Ideální zbývající práce (%)",
+                    borderColor: "rgb(56,202,67)",
+                    data: {{ data['ideal_data']|tojson }},
+                    fill: false,
+                    pointBackgroundColor: "rgb(56,202,67)",
+                    borderWidth: "3",
+                    pointRadius: "0",
                   }
                 ]
               },

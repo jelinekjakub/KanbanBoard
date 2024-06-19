@@ -185,17 +185,17 @@ def profile():
 @app.route("/stats/burndown")
 @auth
 def burndown():
-    project = Project.query_user_projects(session['user_id']).filter(Project.id==request.args.get('project')).first()
+    project = Project.query_user_projects(session['user_id']).filter(Project.id == request.args.get('project')).first()
     if not project:
         return abort(404)
-    data=project.get_burndown_data()
+    data = project.get_burndown_data()
     return render_template("stats/burndown.html", menu_page="stats", project=project, data=data)
 
 
 @app.route("/stats/velocity")
 @auth
 def velocity():
-    project = Project.query_user_projects(session['user_id']).filter(Project.id==request.args.get('project')).first()
+    project = Project.query_user_projects(session['user_id']).filter(Project.id == request.args.get('project')).first()
     if not project:
         return abort(404)
     return render_template("stats/velocity.html", menu_page="stats", project=project)
