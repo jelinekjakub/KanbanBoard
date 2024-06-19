@@ -42,6 +42,7 @@
                               },
                             pointBackgroundColor: "rgb(67,56,202)",
                             borderWidth: "3",
+                            borderJoinStyle: "round",
                             pointRadius: "0",
                             pointBorderWidth: "4",
                             pointHoverRadius: "6",
@@ -54,7 +55,8 @@
                             data: {{ data['ideal_data']|tojson }},
                             fill: false,
                             pointBackgroundColor: "rgb(56,202,67)",
-                            borderWidth: "3",
+                            borderDash: [10,10],
+                            borderWidth: "2",
                             pointRadius: "0",
                         }
                     ]
