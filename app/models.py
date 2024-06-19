@@ -241,6 +241,11 @@ class Project(db.Model):
             })
             index += 1
 
+        transformed_data.append({
+                "x": f"Týden {index}",
+                "y": 0,
+            })
+
         return transformed_data
 
 
