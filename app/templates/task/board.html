@@ -66,7 +66,7 @@
             {% for task_status in task_statuses %}
             <div class="bg-slate-50 rounded-lg shadow-sm p-4">
                 <h2 class="uppercase font-semibold mb-6 text-slate-600 tracking-wider text-sm">{{ task_status.value }}</h2>
-                <div id="{{ task_status.value }}" class="h-full flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
+                <div id="{{ task_status.name }}" class="h-full flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
                     {% for task in tasks_list %}
                     {% if task.status == task_status %}
                     <a href="{{ url_for('task_show') }}?id={{ task.id }}" class="hover:bg-slate-200">
