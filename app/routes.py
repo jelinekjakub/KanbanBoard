@@ -48,7 +48,7 @@ def board():
         return redirect(url_for("project_create"))
     
     project_id = request.args.get('project', projects[0].id)
-    project = Project.query.filter(Project.id == project_id).first()
+    project = Project.query_user_projects(session['user_id']).filter(Project.id == project_id).first()
     if not project:
         return abort(404)
     
@@ -78,9 +78,13 @@ def task_show():
 def task_create():
     if request.method == "POST":
         project_id=request.form["project"]
+        if not Project.query_user_projects(session['user_id']).filter(Project.id == project_id).first():
+            flash("Tento projekt neexistuje!", "danger")
+            return redirect(f"{url_for('board')}")
         new_task = Task(
             name=request.form["name"],
             description=request.form["description"],
+            difficulty=request.form["difficulty"],
             deadline_date=date.fromisoformat(request.form["deadline"]),
             project_id=project_id
         )
@@ -107,6 +111,7 @@ def task_edit():
     if request.method == "POST":
         task.name = request.form["name"]
         task.description = request.form["description"]
+        task.difficulty = request.form["difficulty"]
         db.session.commit()
         return redirect(f"{url_for('task_show')}?id={task_id}")
     else:

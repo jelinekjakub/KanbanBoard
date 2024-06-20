@@ -28,7 +28,7 @@ def seed_db():
     db.session.commit()
     
     
-    task_count = 20
+    task_count = 30
     
     # Project names
     project_names = ["Project Orion", "Project Nebula", "Project Horizon", "Project Phoenix"]
@@ -91,6 +91,7 @@ def seed_db():
         task = Task(
             name=f"Task {j+1} for {finished_project.name}",
             description=f"Description for task {j+1} of {finished_project.name}",
+            difficulty=random.randint(1,5),
             start_date=finished_project.start_date + timedelta(days=random.randint(0, 10)),
             deadline_date=finished_project.deadline_date - timedelta(days=random.randint(0, 10)),
             status=TaskStatus.FINISHED,
@@ -104,6 +105,7 @@ def seed_db():
         task = Task(
             name=f"Task {j+1} for {planned_project.name}",
             description=f"Description for task {j+1} of {planned_project.name}",
+            difficulty=random.randint(1,5),
             start_date=planned_project.start_date + timedelta(days=random.randint(0, 10)),
             deadline_date=planned_project.deadline_date - timedelta(days=random.randint(0, 10)),
             status=TaskStatus.TO_DO,
@@ -118,13 +120,14 @@ def seed_db():
             task = Task(
                 name=f"Task {j+1} for {project.name}",
                 description=f"Description for task {j+1} of {project.name}",
+                difficulty=random.randint(1,5),
                 start_date=project.start_date + timedelta(days=random.randint(0, 10)),
-                deadline_date=project.deadline_date - timedelta(days=random.randint(0, 10)),
+                deadline_date=project.start_date + timedelta(days=random.randint(0, 30)),
                 status=status,
                 project_id=project.id
             )
             if status == TaskStatus.FINISHED:
-                task.finished_date = task.start_date + timedelta(days=random.randint(1, 10))
+                task.finished_date = task.start_date + timedelta(days=random.randint(0, 30))
             tasks.append(task)
 
     db.session.add_all(tasks)

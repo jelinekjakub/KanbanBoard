@@ -25,17 +25,17 @@
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
             const chart = new Chart(document.getElementById("myChart"), {
-                type: "line",
+                type: "bar",
                 data: {
                     datasets: [
                         {
-                            label: "Počet splněných úkolů",
+                            label: "Počet odvedené práce",
                             borderColor: "rgb(67,56,202)",
                             data: {{ data['actual_data']|tojson }},
                             borderWidth: "3",
                         },
                         {
-                            label: "Ideální počet splněných úkolů",
+                            label: "Ideální počet odvedené práce",
                             borderColor: "rgb(56,202,67)",
                             
                             data: {{ data['ideal_data']|tojson }},
