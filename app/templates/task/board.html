@@ -2,6 +2,30 @@
 
 {% block title %}Tabule{% endblock %}
 {% block content %}
+<style>
+    .gu-mirror {
+      position: fixed !important;
+      margin: 0 !important;
+      z-index: 9999 !important;
+      opacity: 0.8;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+      filter: alpha(opacity=80);
+    }
+    .gu-hide {
+      display: none !important;
+    }
+    .gu-unselectable {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+    }
+    .gu-transit {
+      opacity: 0.2;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+      filter: alpha(opacity=20);
+    }
+</style>
 <main class="flex bg-white p-12 w-full text-slate-800">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
@@ -19,7 +43,7 @@
     <div class="flex flex-col w-full">
         <h1 class="text-2xl mb-8 font-semibold ">Tabule</h1>
         <div class="flex flex-row gap-4 items-center content-center">
-            <form class="flex flex-row gap-4 items-center content-center" action="{{ url_for("board") }}" method="GET">
+            <form class="flex flex-row gap-4 items-center content-center" action="{{ url_for('board') }}" method="GET">
                 <label for="project" class="block text-sm font-semibold leading-6 text-gray-900">Projekt:</label>
                 <div class="">
                     <select id="project" name="project" required
@@ -42,7 +66,7 @@
             {% for task_status in task_statuses %}
             <div class="bg-slate-50 rounded-lg shadow-sm p-4">
                 <h2 class="uppercase font-semibold mb-6 text-slate-600 tracking-wider text-sm">{{ task_status.value }}</h2>
-                <div class="flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
+                <div id="{{ task_status.value }}" class="flex flex-col gap-4 [&>a]:bg-slate-100 [&>a]:transition [&>a]:rounded-md [&>a]:px-4 [&>a]:py-1 [&>a]:text-slate-800">
                     {% for task in tasks_list %}
                     {% if task.status == task_status %}
                     <a href="{{ url_for('task_show') }}?id={{ task.id }}" class="hover:bg-slate-200">
@@ -54,6 +78,17 @@
                 </div>
             </div>
             {% endfor %}
+            <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js'></script>
+            <script>
+                dragula([
+                    document.getElementById('Udělat'),
+                    document.getElementById('V průběhu'),
+                    document.getElementById('Hotovo')
+                ],{
+                    revertOnSpill: true,
+                    mirrorContainer: document.body,
+                })
+            </script>
         </div>
     </div>
 </main>
