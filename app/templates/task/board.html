@@ -79,33 +79,58 @@
             </div>
             {% endfor %}
             <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js'></script>
-            <script>
-                
-                  var drake = dragula([
-                  document.getElementById('Udělat'),
-                  document.getElementById('V průběhu'),
-                  document.getElementById('Hotovo')
-              ],{
-                  revertOnSpill: true,
-                  mirrorContainer: document.body,
-              })
-                  
-                  // Zavolání funkce při každém dropu
-                  drake.on('drop', function (el, target, source, sibling) {
-                    console.log('Element dropped:', el);
-                    console.log('Target container:', target);
-                    console.log('Source container:', source);
-                    console.log('Next sibling:', sibling);
-                    // Zde můžete zavolat vlastní funkci
-                    myCustomFunction(el, target, source, sibling);
-                  });
-            
-                  function myCustomFunction(el, target, source, sibling) {
-                    console.log('Element byl přesunut!');
-                    // Další logika podle potřeby
-                  }
-              </script>
         </div>
     </div>
+    <script>
+    var drake = dragula([
+        document.getElementById('Udělat'),
+        document.getElementById('V průběhu'),
+        document.getElementById('Hotovo')
+    ],
+    { revertOnSpill: true, mirrorContainer: document.body})
+
+    drake.on('drop', function (el, target, source, sibling) {
+        saveStatus(el, target, source, sibling);
+    });
+
+    async function sendPostRequest(url, data) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST', // Specify the method
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            // Check if the response is okay (status code 200-299)
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+
+            // Parse the JSON response
+            const responseData = await response.json();
+            return responseData;
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
+
+    function saveStatus(el, target, source, sibling) {
+        const urlParams = new URLSearchParams(el.getAttribute('href').split('?')[1]);
+        const id = urlParams.get('id');
+
+        const url = 'https://example.com/api';
+        const data = { 'task_id': id, 'new_status': target.id };
+
+        sendPostRequest(url, data)
+            .then(response => {
+                console.log('Success:', response);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+    </script>
 </main>
 {% endblock %}
