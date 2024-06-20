@@ -127,7 +127,7 @@ def seed_db():
                 project_id=project.id
             )
             if status == TaskStatus.FINISHED:
-                task.finished_date = task.start_date + timedelta(days=random.randint(0, 30))
+                task.finished_date = task.start_date + timedelta(days=random.randint(0, 19))
             tasks.append(task)
 
     db.session.add_all(tasks)
