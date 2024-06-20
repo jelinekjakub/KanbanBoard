@@ -120,7 +120,7 @@
         const urlParams = new URLSearchParams(el.getAttribute('href').split('?')[1]);
         const id = urlParams.get('id');
 
-        const url = 'https://example.com/api';
+        const url = '{{ url_for("task_move") }}';
         const data = { 'task_id': id, 'new_status': target.id };
 
         sendPostRequest(url, data)
