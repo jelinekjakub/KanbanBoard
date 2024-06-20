@@ -134,8 +134,14 @@ def task_delete():
 @app.route("/task/move", methods=["POST"])
 @auth
 def task_move():
-    print(request)
-    return {"response": "OK"}
+    data = request.get_json()
+    task_id = data.get('task_id')
+    task = Task.query.filter(Task.id == task_id).first()
+    if not task or not task.has_access(session['user_id']):
+        return abort(404)
+    task.status = TaskStatus[data.get('new_status', task.status)]
+    db.session.commit()
+    return {"message": "OK"}
 
 
 
