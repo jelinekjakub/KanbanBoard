@@ -131,6 +131,14 @@ def task_delete():
     return redirect(f"{url_for('board')}?project={task_project_id}")
 
 
+@app.route("/task/move", methods=["POST"])
+@auth
+def task_move():
+    print(request)
+    return {"response": "OK"}
+
+
+
 @app.route("/projects")
 @auth
 def project_index():
