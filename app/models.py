@@ -1,6 +1,7 @@
 import enum
 from flask import flash, request, render_template, redirect
 from passlib.hash import pbkdf2_sha256
+from sqlalchemy import func
 from app import db
 from datetime import datetime, timedelta
 from app.helpers import start_session, clear_session
@@ -132,7 +133,7 @@ class Project(db.Model):
         return user_projects
 
     def get_burndown_data(self):
-        tasks_count = Task.query.filter(Task.project_id == self.id).count()
+        total_work = db.session.query(func.sum(Task.difficulty)).filter(Task.project_id == self.id).one()[0]
         finished_tasks = Task.query.filter(Task.project_id == self.id, Task.finished_date).order_by(
             Task.finished_date).all()
 
@@ -140,7 +141,7 @@ class Project(db.Model):
         data = {self.start_date: start_percent}
 
         for task in finished_tasks:
-            start_percent -= 100 / tasks_count
+            start_percent -= (100 / total_work)*task.difficulty
             data[task.finished_date] = start_percent
 
         # Determine the end date for percent_data to be the current date or the project deadline, whichever is earlier
@@ -209,9 +210,9 @@ class Project(db.Model):
                 year = date.year
                 key = (year, week_number)
                 if key in weekly_data:
-                    weekly_data[key] += 1
+                    weekly_data[key] += task.difficulty
                 else:
-                    weekly_data[key] = 1
+                    weekly_data[key] = task.difficulty
         return weekly_data
 
     def _fill_missing_weeks(self, weekly_data):
@@ -255,6 +256,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text, nullable=True)
+    difficulty = db.Column(db.Integer, db.CheckConstraint('difficulty > 0 AND difficulty < 6'), nullable=False, default=3)
     start_date = db.Column(db.Date, nullable=False, default=datetime.today)
     finished_date = db.Column(db.Date, nullable=True)
     deadline_date = db.Column(db.Date, nullable=True)
@@ -277,6 +279,7 @@ class Task(db.Model):
         self,
         name,
         description=None,
+        difficulty=None,
         start_date=None,
         finished_date=None,
         deadline_date=None,
@@ -285,6 +288,7 @@ class Task(db.Model):
     ):
         self.name = name
         self.description = description
+        self.difficulty = difficulty
         self.start_date = start_date if start_date else datetime.today()
         self.finished_date = finished_date
         self.deadline_date = deadline_date
