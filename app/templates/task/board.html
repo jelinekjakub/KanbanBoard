@@ -2,30 +2,7 @@
 
 {% block title %}Tabule{% endblock %}
 {% block content %}
-<style>
-    .gu-mirror {
-      position: fixed !important;
-      margin: 0 !important;
-      z-index: 9999 !important;
-      opacity: 0.8;
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-      filter: alpha(opacity=80);
-    }
-    .gu-hide {
-      display: none !important;
-    }
-    .gu-unselectable {
-      -webkit-user-select: none !important;
-      -moz-user-select: none !important;
-      -ms-user-select: none !important;
-      user-select: none !important;
-    }
-    .gu-transit {
-      opacity: 0.2;
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-      filter: alpha(opacity=20);
-    }
-</style>
+
 <main class="flex bg-white p-12 w-full text-slate-800">
     <div class="flex-none flex-row absolute top-0 right-0 pr-12 pt-12">
         <div class="flex gap-12 flex-row items-center">
@@ -78,59 +55,25 @@
                 </div>
             </div>
             {% endfor %}
+
             <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js'></script>
+            <script defer src="{{ url_for('static', filename='js/dnd.js') }}"></script>
+            <script>
+                var drake = dragula([
+                    document.getElementById('TO_DO'),
+                    document.getElementById('IN_PROGRESS'),
+                    document.getElementById('FINISHED')
+                ], {
+                    revertOnSpill: true,
+                    mirrorContainer: document.body
+                });
+
+                // Event listener for the drop event
+                drake.on('drop', function(el, target, source, sibling) {
+                    saveStatus(el, target, source, sibling, "{{ url_for('task_move') }}");
+                });
+            </script>
         </div>
     </div>
-    <script>
-    var drake = dragula([
-        document.getElementById('TO_DO'),
-        document.getElementById('IN_PROGRESS'),
-        document.getElementById('FINISHED')
-    ],
-    { revertOnSpill: true, mirrorContainer: document.body})
-
-    drake.on('drop', function (el, target, source, sibling) {
-        saveStatus(el, target, source, sibling);
-    });
-
-    async function sendPostRequest(url, data) {
-        try {
-            const response = await fetch(url, {
-                method: 'POST', // Specify the method
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            // Check if the response is okay (status code 200-299)
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-
-            // Parse the JSON response
-            const responseData = await response.json();
-            return responseData;
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-        }
-    }
-
-    function saveStatus(el, target, source, sibling) {
-        const urlParams = new URLSearchParams(el.getAttribute('href').split('?')[1]);
-        const id = urlParams.get('id');
-
-        const url = '{{ url_for("task_move") }}';
-        const data = { 'task_id': id, 'new_status': target.id };
-
-        sendPostRequest(url, data)
-            .then(response => {
-                console.log('Success:', response);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-    </script>
 </main>
 {% endblock %}
