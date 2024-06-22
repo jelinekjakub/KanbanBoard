@@ -5,29 +5,30 @@
 <link rel="stylesheet" href="../../static/css/project-status.css">
 <main class="flex bg-gray-50 p-12 w-full text-slate-800 relative">
     <div class="w-full flex flex-col items-center">
-        <h1 class="flex-none text-2xl mb-8 font-semibold">Nedělat mám to jenom jako template do budoucna</h1>
+        <h1 class="flex-none text-2xl mb-8 font-semibold">Profil</h1>
 
         <!-- Má tým -->
         <div x-data="{ open: false }"
              id="team_info"
              class="mt-6 p-3 rounded-lg bg-white shadow w-full lg:w-2/3 xl:w-1/2">
             <div x-show="!open">
-                <h2 class="mb-4 font-semibold text-lg">Tým</h2>
+                <h2 class="mb-4 font-semibold text-lg">Uživatelské údaje</h2>
                 <form>
                     <div>
                         <div class="flex flex-row justify-between">
-                            <span class="text-sm font-medium leading-6 text-gray-900">Název</span>
-                            <span class="mt-1 text-sm leading-6 text-gray-500">Název týmu</span>
+                            <span class="text-sm font-medium leading-6 text-gray-900">Jméno</span>
+                            <span class="mt-1 text-sm leading-6 text-gray-500">{{ session['user']['name'] }}</span>
                         </div>
                         <div class="flex flex-row justify-between">
-                            <span class="text-sm font-medium leading-6 text-gray-900">Datum vytvoření</span>
-                            <span class="mt-1 text-sm leading-6 text-gray-500">xx.xx.xxxxx</span>
+                            <span class="text-sm font-medium leading-6 text-gray-900">Email</span>
+                            <span class="mt-1 text-sm leading-6 text-gray-500">{{ session['user']['email'] }}</span>
                         </div>
                         <div class="flex flex-row justify-between">
-                            <span class="text-sm font-medium leading-6 text-gray-900">Počet členů</span>
-                            <span class="mt-1 text-sm leading-6 text-gray-500">0</span>
+                            <span class="text-sm font-medium leading-6 text-gray-900">Heslo</span>
+                            <span class="mt-1 text-2xl font-light leading-6 text-gray-500">* * * * * * * *</span>
                         </div>
                     </div>
+                    <!--
                     <div class="pt-8 flex gap-2 md:gap-4 flex-col md:flex-row justify-end">
                         <button @click.prevent="open = true"
                             class="flex w-full md:w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
@@ -38,8 +39,10 @@
                             Přejit na přehled
                         </a>
                     </div>
+                    -->
                 </form>
             </div>
+            <!--
             <div x-show="open">
                 <h2 class="mb-4 font-semibold text-lg">Pozvat člena týmu</h2>
                 <form>
@@ -64,10 +67,8 @@
                     </div>
                 </form>
             </div>
+            -->
         </div>
-
-        <!-- Nemá tým -->
-
     </div>
 </main>
 {% endblock %}
