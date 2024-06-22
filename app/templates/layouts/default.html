@@ -12,10 +12,10 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/dnd.css') }}">
     </head>
-    <body class="flex flex-row w-full bg-white antialiased min-h-screen">
+    <body class="flex flex-col bg-white antialiased">
         <!-- SIDE PANEL -->
-        <aside class="fixed z-50 top-0 left-0 bottom-0 flex-none w-[45px] lg:w-64 hover:w-64 transition-all ease-in-out p-1 lg:px-4 bg-indigo-600 font-semibold text-sm text-gray-200 shadow-sm overflow-hidden">
-            <div class="relative w-full h-full">
+        <aside class="fixed top-0 left-0 bottom-0 w-[45px] lg:w-64 hover:w-64 transition-all ease-in-out p-1 lg:px-4 bg-indigo-600 font-semibold text-sm text-gray-200 shadow-sm overflow-hidden">
+            <div class="relative h-full">
                 <!-- LOGO -->
                 {% include "components/logo.html" %}
 
@@ -33,7 +33,7 @@
         </aside>
 
         <!-- MAIN WRAPPER -->
-        <div class="flex-1 pl-[45px] lg:pl-64 transition-all ease-in-out w-full bg-slate-100">
+        <div class="pl-[45px] lg:pl-64 transition-all ease-in-out bg-slate-100">
             <!-- MESSAGES -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -46,12 +46,12 @@
             {% endwith %}
 
             <!-- CONTENT -->
-            <main class="w-full">
+            <div class="[&>main]:min-h-screen">
             {% block content %}{% endblock %}
-            </main>
+            </div>
 
             <!-- FOOTER -->
-            <footer></footer>
+            <footer class="mt-auto"></footer>
         </div>
     </body>
 </html>
