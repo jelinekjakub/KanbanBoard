@@ -14,17 +14,28 @@
     </head>
     <body class="flex flex-col bg-white antialiased">
         <!-- SIDE PANEL -->
-        <aside class="fixed top-0 left-0 bottom-0 w-[45px] lg:w-64 hover:w-64 transition-all ease-in-out p-1 lg:px-4 bg-indigo-600 font-semibold text-sm text-gray-200 shadow-sm overflow-hidden">
+        <aside x-data="{ open: window.innerWidth > 1024, active: window.innerWidth > 1024}"
+               @mouseover="!active ? open = true : ''"
+               @mouseleave="!active ? open = false : ''"
+               x-on:resize.window="open = window.innerWidth > 1024; active = window.innerWidth > 1024"
+               class="fixed z-50 top-0 left-0 bottom-0 w-[45px] lg:w-64 hover:w-64 transition-all ease-in-out p-1 lg:px-4 bg-indigo-600 font-semibold text-sm text-gray-200 shadow-sm overflow-hidden">
             <div class="relative h-full">
                 <!-- LOGO -->
+                <div x-show="open">
                 {% include "components/logo.html" %}
+                </div>
+                <div x-show="!open">
+                {% include "components/logo_small.html" %}
+                </div>
 
                 <!-- NAVBAR -->
+                <div>
                 {% include "components/navigation.html" %}
+                </div>
 
                 <!-- USER -->
                 {% if session['auth'] %}
-                <div class="absolute hidden lg:block text-center left-0 right-0 p-4 bottom-0">
+                <div x-show="open" class="absolute text-center left-0 right-0 p-4 bottom-0">
                     Uživatel:
                     <span class="font-light">{{ session['user']['name'] }}</span>
                 </div>
@@ -51,7 +62,12 @@
             </div>
 
             <!-- FOOTER -->
-            <footer class="mt-auto"></footer>
+            <footer class="mt-auto text-sm text-gray-500 leading-8 bg-white flex justify-between">
+                <div class="mx-8 px-8 py-3 flex justify-between w-full border-t border-gray-300">
+                    <div>&copy 2024 JELÍNEK &amp BARTOŠ, všechna práva vyhrazena.</div>
+                    <a class="text-indigo-600" href="https://github.com/jelinekjakub/kanbanboard">GitHub</a>
+                </div>
+            </footer>
         </div>
     </body>
 </html>
