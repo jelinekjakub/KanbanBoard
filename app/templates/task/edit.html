@@ -31,10 +31,16 @@
                 </div>
             </div>
             <div>
-                <label for="difficulty" class="block text-sm font-medium leading-6 text-gray-900">Obtížnost úkolu (1 až 5)</label>
+                <label for="difficulty" class="block text-sm font-medium leading-6 text-gray-900">Obtížnost</label>
                 <div class="mt-2">
-                    <input id="difficulty" name="difficulty" type="number" required value="{{ task.difficulty }}" min="1" max="5"
+                    <select id="difficulty" name="difficulty" required
                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <option value=1 {{ 'selected' if 1==task.difficulty }}>Velmi snadný</option>
+                        <option value=2 {{ 'selected' if 2==task.difficulty }}>Snadný</option>
+                        <option value=3 {{ 'selected' if 3==task.difficulty }}>Středně obtížný</option>
+                        <option value=4 {{ 'selected' if 4==task.difficulty }}>Obtížný</option>
+                        <option value=5 {{ 'selected' if 5==task.difficulty }}>Velmi obtížný</option>
+                    </select>
                 </div>
             </div>
             <div class="pt-8">
