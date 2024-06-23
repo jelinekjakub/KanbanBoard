@@ -2,43 +2,45 @@
 
 **Aplikace pro správu a vizualizaci projektů.**
 
+Tento projekt je webová aplikace pro správu úkolů a projektů pomocí metodiky Kanban. Aplikace umožňuje uživatelům přidávat, upravovat a sledovat úkoly v různých fázích dokončení.
 ## Instalace
-```bash
-mv .env.example .env
-pip install -r requirements.txt
 
+
+> Pro instalaci není nutné žádné virtuální prostředí. Avšak v případně potřeby lze
+> místo instalace balíčků z `requirements.txt` do lokálního prostředí, vytvořit virtuální
+> prostředí ve složce `.venv`.
+1. Naklonujte repozitář
+```bash
+git clone https://github.com/jelinekjakub/kanbanboard.git
+cd kanbanboard
+```
+2. Vytvořte soubor `.env` a nainstalujte potřebné závislosti
+```bash
+cp .env.example .env
+pip install -r requirements.txt
+```
+3. Vytvořte sobory databáze
+```bash
 python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
-
-# (optional)
+```
+4. (Volitelné) Pokud chcete otestovat chování s různými daty, můžete použít příkaz `seed_db`
+> ⚠︎ **Upozornění:** příkaz `seed_db` smaže všechna aktuální data v databázi.
+```bash
+# (volitné)
 python manage.py seed_db
-
+```
+5. Spustťe
+```bash
 python manage.py run
 ```
 
-### Vysvětlení
-- `mv .env.example .env` vytvoření .env sobouru.
-- `pip install -r requirements.txt` instalace potřebných balíčků
-- `python manage.py db commands` vytvoření, inicializace databáze a vytvoření migračních souborů 
-- `python manage.py seed_db` zaplnění databáze částečně náhodnými testovacími daty
-> ⚠︎ **Upozornění:** příkaz `seed_db` smaže všechna aktuální data v databázi.
+6. Nyní stačí otevřít webový prohlížeč na asdrese `http://localhost:5000/`.
 
-
-
-## Instalace (old)
-Aplikace se spouští pomocí `python manage.py run` 
-
-Před prvním spuštěním je však potřeba ještě pár kroků:  
-1. Nainstalujte si potřebné balíčky `pip install -r requirements.txt`
-2. Zkopírujte soubor `.env.example`, pojmenujte ho `.env` a upravte potřebné hodnoty jako třeba `DATABASE_URL`, podle vašeho prostředí.
-3. Udělejte a spusťte migrace pomocí příkazů:   
-        - `python manage.py db init`  
-        - `python manage.py db migrate`  
-        - `python manage.py db upgrade`  
-4. Spusťte aplikaci pomocí `python manage.py run`  
 
 ## Klíčové funkce
+Aplikace nabízí intuitivní uživatelské rozhraní, kde mohou uživatelé spravovat své úkoly v různých sloupcích (To Do, In Progress, Done), upravovat a mazat úkoly, spolupracovat na projektech s více uživateli a využívat responzivní design optimalizovaný pro různá zařízení.
 ### Uživatel
 Přihlašovací systém, přihlašování a registrace nových uživatelů.
 ### Tým
