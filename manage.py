@@ -40,8 +40,8 @@ def seed_db():
     for project_name in project_names:  # Total 10 projects including the above three
         project = Project(
             name=project_name,
-            start_date=datetime.today() - timedelta(days=random.randint(0, 30)),
-            deadline_date=datetime.today() + timedelta(days=random.randint(30, 60)),
+            start_date=datetime.today() - timedelta(days=random.randint(20, 30)),
+            deadline_date=datetime.today() + timedelta(days=random.randint(3, 14)),
             user_id=1,
             team_id=1,
         )
@@ -122,12 +122,12 @@ def seed_db():
                 description=f"Description for task {j+1} of {project.name}",
                 difficulty=random.randint(1,5),
                 start_date=project.start_date + timedelta(days=random.randint(0, 10)),
-                deadline_date=project.start_date + timedelta(days=random.randint(0, 30)),
+                deadline_date=project.start_date + timedelta(days=random.randint(10, 30)),
                 status=status,
                 project_id=project.id
             )
             if status == TaskStatus.FINISHED:
-                task.finished_date = task.start_date + timedelta(days=random.randint(0, 19))
+                task.finished_date = task.start_date + timedelta(days=random.randint(1, 19))
             tasks.append(task)
 
     db.session.add_all(tasks)
