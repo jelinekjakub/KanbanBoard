@@ -11,3 +11,9 @@ Před prvním spuštěním je však potřeba ještě pár kroků:
         - `python manage.py db migrate`  
         - `python manage.py db upgrade`  
 3. Spusťte aplikaci pomocí `python manage.py run`  
+
+## Frontend
+- Jinja https://jinja.palletsprojects.com/
+- Tailwind https://tailwindcss.com/
+- Alpine.js https://alpinejs.dev/
+- Heroicons https://heroicons.com/
