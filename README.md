@@ -6,9 +6,9 @@ Tento projekt je webová aplikace pro správu úkolů a projektů pomocí metodi
 ## Instalace
 
 
-> Pro instalaci není nutné žádné virtuální prostředí. Avšak v případně potřeby lze
-> místo instalace balíčků z `requirements.txt` do lokálního prostředí, vytvořit virtuální
-> prostředí ve složce `.venv`.
+>> Pro instalaci není nutné žádné virtuální prostředí. Avšak v případně potřeby lze
+>> místo instalace balíčků z `requirements.txt` do lokálního prostředí, vytvořit virtuální
+>> prostředí ve složce `.venv`.
 1. Naklonujte repozitář
 ```bash
 git clone https://github.com/jelinekjakub/kanbanboard.git
@@ -26,7 +26,7 @@ python manage.py db migrate
 python manage.py db upgrade
 ```
 4. (Volitelné) Pokud chcete otestovat chování s různými daty, můžete použít příkaz `seed_db`
-> ⚠︎ **Upozornění:** příkaz `seed_db` smaže všechna aktuální data v databázi.
+>> ⚠︎ **Upozornění:** příkaz `seed_db` smaže všechna aktuální data v databázi.
 ```bash
 # (volitné)
 python manage.py seed_db
