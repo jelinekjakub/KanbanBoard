@@ -1,0 +1,48 @@
+{% macro input(name, label='', value='', type='text') -%}
+    <div>
+        <label for="{{ name }}" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+        <div class="mt-2">
+            <input id="{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ value }}" required
+                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro textarea(name, label='', value='') -%}
+    <div>
+        <label for="{{ name }}" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+        <div class="mt-2">
+                <textarea id="{{ name }}" name="description" required
+                          class="block w-full min-h-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{ value }}</textarea>
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro select(name, label='', options=[], selected='') -%}
+    <div>
+        <label for="{{ name }}" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+        <div class="mt-2">
+            <select id="{{ name }}" name="{{ name }}" required
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                {% for option in options %}
+                    <option value="{{ option.value }}" {{ 'selected' if option.value == selected else '' }}>{{ option.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+{%- endmacro %}
+
+
+{% macro checkbox(name, label='') -%}
+    <div class="flex h-3 pt-8 items-center">
+        <input id="{{ name }}" name="{{ name }}" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 cursor-pointer focus:ring-indigo-600">
+        <label for="{{ name }}" class="block ml-3 text-sm font-medium leading-6 text-gray-900 cursor-pointer">{{ label }}</label>
+    </div>
+{%- endmacro %}
+
+{% macro button(text='', type='submit') -%}
+    <button type="{{ type }}"
+            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        {{ text }}
+    </button>
+{%- endmacro %}

@@ -16,32 +16,20 @@
     <div class="w-full">
         <h1 class="text-2xl mb-8 font-semibold">Upravit úkol</h1>
         <form class="space-y-4 w-full md:w-1/2" method="POST" action="{{ url_for('task_edit') }}?id={{ task.id }}">
-            <div>
-                <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Název</label>
-                <div class="mt-2">
-                    <input id="name" name="name" type="text" value="{{ task.name }}" required
-                           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div>
-                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Popis</label>
-                <div class="mt-2">
-                    <textarea id="description" name="description" required 
-                           class="block w-full min-h-24 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{ task.description }}</textarea>
-                </div>
-            </div>
-            <div>
-                <label for="difficulty" class="block text-sm font-medium leading-6 text-gray-900">Obtížnost úkolu (1 až 5)</label>
-                <div class="mt-2">
-                    <input id="difficulty" name="difficulty" type="number" required value="{{ task.difficulty }}" min="1" max="5"
-                           class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
+            {% import 'components/forms.html' as forms %}
+
+            {{ forms.input('name', 'Název', task.name) }}
+            {{ forms.textarea('description', 'Popis', task.description) }}
+            {{ forms.select('difficulty', 'Obtížnost', [
+                { 'value': 1, 'label': 'Velmi snadný' },
+                { 'value': 2, 'label': 'Snadný' },
+                { 'value': 3, 'label': 'Středně obtížný' },
+                { 'value': 4, 'label': 'Obtížný' },
+                { 'value': 5, 'label': 'Velmi obtížný' }
+            ], task.difficulty) }}
+
             <div class="pt-8">
-                <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Uložit
-                </button>
+                {{ forms.button('Uložit') }}
             </div>
         </form>
     </div>
