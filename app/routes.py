@@ -32,6 +32,7 @@ def register():
     return render_template("register.html", menu_page="login")
 
 @app.route("/logout")
+@auth
 def logout():
     """Handle logout requests."""
     return User().logout()
