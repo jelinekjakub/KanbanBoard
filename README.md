@@ -1,5 +1,5 @@
 # kanban|Board
-
+![img.png](app/static/img.png)
 **Aplikace pro správu a vizualizaci projektů.**
 
 Tento projekt je webová aplikace pro správu úkolů a projektů pomocí metodiky Kanban. Aplikace umožňuje uživatelům přidávat, upravovat a sledovat úkoly v různých fázích dokončení.
