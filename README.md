@@ -52,6 +52,10 @@ Tvorba úkolů s deadline, statusy, vizualizace
 ### Statistika
 Burndown chart a velocity
 
+## Další možnosti
+Další postup ve vývoji by obsahoval variabilní nastavení kanban tabulí, s vlastními sloupci. Možnost drag&dropu těchto sloupcí a změna jejich pořadí.
+Další potřebné metriky pro vývoj aplikací, sledování změn a další.
+
 ## Použité technologie
 ### Backend
 - Flask https://flask.palletsprojects.com/
