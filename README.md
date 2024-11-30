@@ -55,6 +55,7 @@ Burndown chart a velocity
 ## Další možnosti
 Další postup ve vývoji by obsahoval variabilní nastavení kanban tabulí, s vlastními sloupci. Možnost drag&dropu těchto sloupcí a změna jejich pořadí.
 Další potřebné metriky pro vývoj aplikací, sledování změn a další.
+Na frontendu možnost vytvoření nastavení barevného schéma a nočního režimu v podání tmavých barev grafického rozhraní aplikace.
 
 ## Použité technologie
 ### Backend
